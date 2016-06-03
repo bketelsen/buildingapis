@@ -1,4 +1,44 @@
 ### Topics
+
+1. HTTP Basics (+https, standard headers) - Brian
+2. HTTP2 - Raphael
+3. Different API styles -> REST - Brian
+4. REST Design consideration (brief?) - Raphael
+5. Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael
+6. Design API that we will build later using Swagger editor - Raphael
+5. HTTP Go server (brief) - Brian
+  0. HTTP server "architecture" one goroutine per request, request flow
+  a. Routing
+  b. Error Handling
+  c. Encoding/Decoding + MIME
+6. Build a REST server in Go using 100% stdlib - Together
+  a. Error handling
+  b. Testing
+  ....
+7. Middleware as a concept - Brian
+  a. Build sample middleware for logging request headers (e.g.)
+8. Alternative Muxers - Brian
+9. Middleware packages (Alice) - Brian
+10. Frameworks - Raphael
+  a. Why - helps at scale
+  b. Costs
+  c. Echo, Gin, Goji <- "standard frameworks", Iris? HTTP2
+11. Replicate API built in step 6 in any of the above framework - Together
+12. Codegen - why? - Brian
+13. DIY codegen, goa, go-swagger - Brian
+14. (re)build app using goa - Together
+14. Documenting APIs - Raphael
+15. Running APIs in production - Raphael/Brian
+  a. Logging!
+  b. Metrics
+  c. Load balancing
+16. Add logging/metric data to API built with goa - Together
+17. Backplane LBs - Brian
+
+
+
+17. Advanced topics: Vagrant flux - linkerd - Raphael
+
 * API Design Considerations
 * Routing
 * Error Handling
