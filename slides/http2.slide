@@ -1,0 +1,26 @@
+Building APIs in Go
+HTTP2
+10 July 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* HTTP/2
+
+- Provides an optimized transport for HTTP semantics
+- Supports header compression
+- Enables multiple "streams" to share the same TCP connection
+- Connection upgrades transparently from HTTP/1
+
+* HTTP/2 in Go
+
+Enabled by default since Go 1.6 for both servers and clients
+
+* What You Need to Know
+
+- Does not affect API design
+- "just works"
+
