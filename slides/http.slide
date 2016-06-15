@@ -63,6 +63,9 @@ should handle the message. In particular headers:
 - define the shape of the body: its length, encoding and content type (HTML, XML, JSON etc.).
 - state under which condition the server should build the body content (`If-Match` etc.)
 
+Headers can be modified by proxies or front-ends to alter the things like
+caching behavior or authorization.
+
 * Connections
 
 HTTP/1.1 introduced persistent connections
