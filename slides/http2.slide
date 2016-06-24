@@ -10,6 +10,7 @@ raphael@goa.design
 
 * HTTP/2
 
+- Evolution of Google's SPDY
 - Provides an optimized transport for HTTP semantics
 - Supports header compression
 - Enables multiple "streams" to share the same TCP connection
@@ -17,10 +18,13 @@ raphael@goa.design
 
 * HTTP/2 in Go
 
-Enabled by default since Go 1.6 for both servers and clients
+Enabled by default since Go 1.6 for both servers and clients.
+No change to the `http` package usage.
 
 * What You Need to Know
 
 - Does not affect API design
 - "just works"
+
+.link https://www.cloudflare.com/http2
 
