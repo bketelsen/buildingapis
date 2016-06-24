@@ -1,7 +1,7 @@
 ### Topics
 
 1. HTTP Basics (+https, standard headers) - Brian
-2. HTTP2 - Raphael *(IN PROGRESS)*
+2. HTTP2 - Raphael *(DONE)*
 3. Different API styles -> REST - Brian
 4. REST Design consideration (brief?) - Raphael *(DONE)*
 5. Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(IN PROGRESS)*
