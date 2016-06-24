@@ -19,7 +19,7 @@
   - Build sample middleware for logging request headers (e.g.)
 8. Alternative Muxers - Brian
 9. Middleware packages (Alice) - Brian
-10. Authorization - Raphael
+10. Authorization - Raphael *(IN PROGRESS)*
   - Basic Auth, Shared secrets, JWT, OAuth2
   - Add basic auth to sample
 11. Frameworks - Raphael
