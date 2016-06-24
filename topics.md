@@ -1,17 +1,17 @@
 ### Topics
 
 1. HTTP Basics (+https, standard headers) - Brian
-2. HTTP2 - Raphael *(IN PROGRESS)*
+2. HTTP2 - Raphael *(DONE)*
 3. Different API styles -> REST - Brian
 4. REST Design consideration (brief?) - Raphael *(DONE)*
-5. Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael
-6. Design API that we will build later using Swagger editor - Raphael
+5. Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(IN PROGRESS)*
+6. Design API that we will build later using Swagger editor - Raphael *(NEED INPUT)*
 5. HTTP Go server (brief) - Brian
   - HTTP server "architecture" one goroutine per request, request flow
   - Routing
   - Error Handling
   - Encoding/Decoding + MIME
-6. Build a REST server in Go using 100% stdlib - Together
+6. Build a REST server in Go using 100% stdlib - Together *(NEED INPUT)*
   - Error handling
   - Testing
   ....
