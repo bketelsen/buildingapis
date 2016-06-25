@@ -2,7 +2,7 @@
 
 1. HTTP Basics (+https, standard headers) - Brian
 2. HTTP2 - Raphael *(DONE)*
-3. Different API styles -> REST - Brian
+3. Different API styles -> REST - Brian *(Mostly Done)* needs examples
 4. REST Design consideration (brief?) - Raphael *(DONE)*
 5. Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(IN PROGRESS)*
 6. Design API that we will build later using Swagger editor - Raphael *(NEED INPUT)*
