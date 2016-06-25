@@ -61,15 +61,40 @@ raphael@goa.design
 
 * Hypermedia
 
+- Variant of URI, with links to possible interactions included in response
+- Describes link semantics with media
 
 * Hypermedia - Why?
 
+- API becomes self-describing
+- Evolves well over time as you add new interactions/methods
+
 * Hypermedia - Why Not?
 
+- No clear standard
+- No mature tooling yet
 
+
+* Event Driven
+
+- Client and Server listen for events
+- Events transmitted and processed asynchronously
+- Very frequently used over WebSocket transport
+
+* Event Driven - Why?
+
+- Really strong performance in client/server scenario e.g.: *slack*
+- Low overhead, continuous connection
+
+* Event Driven - Why Not?
+
+- Zero standards
+- No common tooling
+- Complicated design architecture for client & server unless you use a Javascript framework for both
 
 * What You Need to Know
 
 - URI/REST is the standard, with JSON as the transport
-
+- It's still the Wild West out there.  Most URI/Rest variations use pieces of Hypermedia
+- JSON over REST on HTTP may be the standard, but the structure of the request/response messages varies *greatly*
 
