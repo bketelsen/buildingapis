@@ -1,0 +1,76 @@
+Building APIs in Go
+HTTP
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* HTTP
+
+** It all starts here
+
+https://tools.ietf.org/html/rfc2616
+(c) 1999 !!
+
+* What is HTTP?
+
+- Protocol Over TCP
+- Message consists of Request + Response
+- Stateless
+- http_URL = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]
+
+    generic-message = start-line
+                      *(message-header CRLF)
+                       CRLF
+                       [ message-body ]
+
+* HTTP Request
+
+    Request       = Request-Line              ; Section 5.1
+                        *(( general-header        ; Section 4.5
+                         | request-header         ; Section 5.3
+                         | entity-header ) CRLF)  ; Section 7.1
+                        CRLF
+                        [ message-body ]          ; Section 4.3
+
+- Starts with a "Method", e.g. `GET`, `POST`, `PUT` ...
+- Next comes the URI, e.g. `https://gophercon.com/schedule/`
+- The next section contains the headers, one per line
+- The last optional part contains the actual message body
+
+* HTTP Response
+
+       Response      = Status-Line               ; Section 6.1
+                       *(( general-header        ; Section 4.5
+                        | response-header        ; Section 6.2
+                        | entity-header ) CRLF)  ; Section 7.1
+                       CRLF
+                       [ message-body ]          ; Section 7.2
+
+- Starts with a "status", for example `200 OK`
+- The rest of the message follows the same shape as requests: headers and body.
+
+* HTTP Headers
+
+Headers contain metadata about the message controlling the transport but also
+other aspects that affect how the server (requests) or client (response)
+should handle the message. In particular headers:
+
+- dictate the caching strategy (whether responses can be cached and for how long)
+- define the shape of the body: its length, encoding and content type (HTML, XML, JSON etc.).
+- state under which condition the server should build the body content (`If-Match` etc.)
+
+Headers can be modified by proxies or front-ends to alter the things like
+caching behavior or authorization.
+
+* Connections
+
+HTTP/1.1 introduced persistent connections
+- No need to create new connections for each request (think images in a web page)
+
+HTTP/1.1 also introduced pipelining
+- Clients may send multiple requests without having to wait for each response
+- BUT responses must be sent in the same order

@@ -1,0 +1,75 @@
+Building APIs in Go
+API Styles
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* Different API Styles
+
+- Tunneling 
+- URI 
+- Hypermedia
+- Event-Driven
+
+* Tunneling
+
+- Exposes an RPC interface
+- Often uses XML messaging format
+- Many transports can be used, HTTP is most common
+- Most popular implementation: SOAP
+
+
+* Tunneling - Why?
+
+- Transport Agnostic
+- Works over HTTP, TCP, JMS, Raw TCP Sockets
+
+* Tunneling - Why Not?
+
+- SOAP!
+- There's nothing SIMPLE about it.
+- Heavy protocol
+- Heavy infrastructure required
+- No longer the standard
+
+
+* URI
+
+- Exposes object- or resource-centric API
+- URI and query parameters are used to identify and filter 'objects'
+- CRUD operations mapped to HTTP Methods/Verbs
+- This is what we commonly call REST
+
+
+* URI - Why?
+
+- API is intuitive 
+- http://myapp.com/api/things/2
+- HTTP Protocol makes actions clear. DELETE verb deletes.
+
+* URI - Why Not?
+
+- Not always easy to map your domain to clear URIs
+- Some interactions don't directly map to HTTP verbs
+	methods don't always map to CRUD	
+- Sometimes you have to make many calls to perform a single operation
+
+
+* Hypermedia
+
+
+* Hypermedia - Why?
+
+* Hypermedia - Why Not?
+
+
+
+* What You Need to Know
+
+- URI/REST is the standard, with JSON as the transport
+
+

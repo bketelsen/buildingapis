@@ -1,0 +1,197 @@
+Building APIs in Go
+REST
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* REST (Representational state transfer)
+
+- Coined by Roy Fielding in his 2000 PhD disseration at UC Irvine
+
+Describes a distributed architecture where components communicate by
+exchanging representations of resources.
+
+Key ideas:
+
+- Resources are identified by URLs
+- Resources are modified via representations
+- Representations are encoded using standard media types
+
+* Resources And Resource Collections
+
+A common pattern consists of introducing the concepts of resources and
+resource collections.
+
+Resources and resource collections are identified via URLs. Individual
+resource URLs typically consist of the collection URL concatenated with the
+resource identifier. For example the DigitalOcean API defines:
+
+    /v2/droplets
+
+to list all droplets in an account and:
+
+    /v2/droplets/$DROPLET_ID.
+
+to retrieve a droplet by ID.
+
+* HTTP Methods
+
+HTTP methods are used to express the operation performed on resources:
+
+- *GET* for retrieving (the representation of) a resource or resource collection
+- *POST* for creating new resources
+- *PUT* for updating resources (override)
+- *PATCH* for updating resources (patch semantic)
+- *DELETE* for deleting resources
+
+Typically the URL used to create a resource is the collection URL. The
+resource is added to the corresponding collection.
+
+Back to the DigitalOcean example, the API defines:
+
+    GET /v2/droplets                // List all droplets  
+    GET /v2/droplets/$DROPLET_ID    // Retrieve a droplet by ID
+    POST /v2/droplets               // Create a droplet
+    DELETE /v2/droplets/$DROPLET_ID // Delete a droplet
+
+* Sub-resources
+
+Sub-resources are resources that can only be addressed whithin the scope of
+another (the parent) resource. Typically the lifetime of a sub-resource is
+bound to the one of the parent. For example:
+
+     /v2/droplets/$DROPLET_ID/actions
+
+is the resource collection containing all the actions of the parent droplet. 
+
+Resources including sub-resources must be addressable, for example:
+
+    GET /v2/actions/$ACTION_ID
+
+However:
+
+    GET /v2/droplets/$DROPLET_ID/kernels
+
+Lists all the kernels available to a droplet. Kernels are not resources
+because they can't be addressed individually.
+
+* CRUD vs. Custom Actions
+
+The *C* reate  /  *R* ead  /  *U* pdate  /  *D* elete operations form the basis of REST.
+In its purest form that's all that a RESTful API should be using. In practice
+most APIs define additional endpoints for:
+
+- Actions that do not involve resources, e.g. search queries, reports
+- Actions that change state but don't take the change as input e.g. turn on, turn off etc.
+
+While it's possible to model everything as CRUD - it's not always practical.
+
+*But* always use GET for idempotent requests.
+
+* Relationships
+
+- Resources that relate other resources may include the related resource URLs in their representation.
+- Resources may also relate to entire collections, for example of sub-resources.
+- Often times the canonical representation of a resource includes a self href.
+
+* Design Considerations
+
+Things to think about when designing REST APIs:
+
+- Join models: should these be represented as resources? or simple relationships?
+- Performance: is there a need for bulk operations? which ones?
+- Filtering: no filtering? whitelist of filterable fields? multiple? GraphQL?
+- Sorting and pagination: by offset? or absolute?
+- Versioning: in the path? header? query string?
+
+Many considerations, involves many parties.
+
+*Do*it*right* - APIs never go away.
+
+* Join Models
+
+Examples: attached disks
+
+Does the join model need to be adressable? If so use a resource. This can
+happen if the join model:
+
+- Defines its own fields, e.g. attachment timestamp, attachment status
+- Defines its own actions, eg `DELETE` to detach
+
+Tends to lend itself to a more RESTful API but may be overkill for the simple
+cases.
+
+* Performance
+
+Specifically the ability to operate on many resources in one API request:
+
+- retrieve, create, update or delete many resources at once
+
+If dealing with tens of resources is a common pattern for the API consider
+bulk. Common patterns:
+
+- Address multiple resources using a query string to list the IDs `?ids=1,5,6,10`
+- Collections in request bodies, e.g. JSON arrays for creation, update
+
+Advanced technique: use multipart requests where each part has the same shape
+as individual requests. This applies to both requests and responses.
+
+* Filtering
+
+APIs typically need the ability to filter resource listings. Similar to the
+`WHERE` clause of `SQL` queries. For example DigitalOcean allow listing
+droplets by tags:
+
+    GET /v2/droplets?tag_name=$TAG_NAME
+
+Common patterns in increasing order of complexity:
+
+- query string a la DigitalOcean: `field=value`.
+- different operators: `field!=value`, `field>value` etc.
+- multiple fields: `filter[]=field1==value1&filter[]=field2!=value2`
+- sub-fields: `filter=data.field1==value1`
+- completely arbitrary a la GraphQL
+
+Consider the trade-offs between flexibility and performance. Database backend
+typically drives what's possible.
+
+* Sorting And Pagination
+
+Sorting typically requires the corresponding field to be indexed in the
+database backend.
+
+As a rule of thumb pagination is needed for collections that may have more
+than a hundred of items. Two techniques:
+
+- Offset: numeric offset identifies first page entry
+- Cursor-based: token identifies first page entry
+
+Which one to use depends on teh desired user experience and the performance
+profile of the backend. Offset may not always be feasible efficiently
+(may require a table scan).
+
+* Versioning
+
+Good idea to version APIs, again different techniques. For the actual value:
+
+- Use an incrementing numeric value
+- Use a timestamp style version number, e.g. 20160523
+
+Timestamp is a good approach if the API changes often.
+
+For how to specify it:
+
+- in the request path (a la DigitalOcean)
+- in a header
+- in a query string
+
+Usually the last two are used together. Putting the version in path makes
+it harder for clients to upgrade because of the resource URLs inconsistency.
+
+* API Review
+
+.link https://developers.digitalocean.com/documentation/v2/#introduction

@@ -1,0 +1,32 @@
+Building APIs in Go
+HTTP2
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* HTTP/2
+
+- Evolution of Google's SPDY
+- Provides an optimized transport for HTTP semantics
+- Supports header compression
+- Enables multiple "streams" to share the same TCP connection
+- Connection upgrades transparently on TLS negotiation
+- Does not have the HTTP pipelining congestion issue
+
+* HTTP/2 in Go
+
+Enabled by default since Go 1.6 for both servers and clients.
+No change to the `http` package usage.
+
+* What You Need to Know
+
+- Does not affect API design
+- "just works"
+- For the curious, checkout the "HTTP/2 and SPDY indicator" browser extension
+
+.link https://www.cloudflare.com/http2
+
