@@ -22,7 +22,11 @@
 10. Authorization - Raphael *(IN PROGRESS)*
   - Basic Auth, Shared secrets, JWT, OAuth2
   - Add basic auth to sample
-11. Frameworks - Raphael
+11. Security
+  - CSRF
+  - XSS
+  - SQL injection
+11. Frameworks - Raphael *(IN PROGRESS)*
   - Why - helps at scale
   - Costs
   - Echo, Gin, Goji <- "standard frameworks", Iris? HTTP2
