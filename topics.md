@@ -26,7 +26,7 @@ BREAK
 12. Authorization - Raphael *(IN PROGRESS)*
   - Basic Auth, Shared secrets, JWT, OAuth2
   - Add basic auth to sample
-13. Security
+13. Security - Raphael
   - CSRF
   - XSS
   - SQL injection
@@ -44,7 +44,7 @@ LUNCH
 
 BREAK
 
-19. Running APIs in production - Raphael/Brian
+19. Running APIs in production - Brian
   a. Logging! (principles)
   b. Metrics
   c. Tracing
@@ -64,40 +64,40 @@ BREAK
 26. Advanced topics: Vagrant flux - linkerd - Raphael
 27. Open Q&A - Together
 
-0. 9:00-9:05
-1. 9:05-9:15
-2. 9:15-9:20
-3. 9:20-9:35
-4. 9:35-9:50
-5. 9:50-10:00
-6. 10:00-10:15 *Exercise*
-7. 10:15-10:25
-8. 10:25-10:45 *Exercise*
+0. 9:00-9:05 B
+1. 9:05-9:15 B
+2. 9:15-9:20 R
+3. 9:20-9:35 B
+4. 9:35-9:50 R
+5. 9:50-10:00 R
+6. 10:00-10:15 *Exercise* R
+7. 10:15-10:25 B
+8. 10:25-10:45 *Exercise* B
 
 BREAK 10:45-11:00
 
-9. 11:00-11:15 *Exercise*
-10. 11:15-11:25
-11. 11:25-11:35
-12. 11:35-11:45 *Execercise*
-13. 11:45:11:55
+9. 11:00-11:15 *Exercise* B
+10. 11:15-11:25 B
+11. 11:25-11:35 B
+12. 11:35-11:45 *Execercise* R
+13. 11:45:11:55 R
 
 LUNCH 12:00-13:00
 
-14. 13:00-13:05
-15. 13:05-13:25 *Exercise*
-16. 13:25-13:35
-17. 13:35-13:45
-18. 13:45-14:10 *Exercise*
-19. 14:10-14:25
-20. 14:25-14:40 *Exercise*
+14. 13:00-13:05 R
+15. 13:05-13:25 *Exercise* B+R
+16. 13:25-13:35 B
+17. 13:35-13:45 B
+18. 13:45-14:10 *Exercise* R
+19. 14:10-14:25 B
+20. 14:25-14:40 *Exercise* B
 
 BREAK 14:40-15:00
 
-21. 15:05:15:15
-22. 15:15-15:25
-23. 15:25-15:40
-24. 15:40-16:05 *Exercise*
-25. 16:05-16:20
-26. 16:20-16:35
-27. 16:35-17:00
+21. 15:05:15:15 B
+22. 15:15-15:25 B
+23. 15:25-15:40 B
+24. 15:40-16:05 *Exercise* R
+25. 16:05-16:20 R
+26. 16:20-16:35 R
+27. 16:35-17:00 B+R
