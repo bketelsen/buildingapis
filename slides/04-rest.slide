@@ -94,7 +94,7 @@ While it's possible to model everything as CRUD - it's not always practical.
 
 * Relationships
 
-- Resources that relate other resources may include the related resource URLs in their representation.
+- Resources that relate to other resources may include the related resource URLs in their representation.
 - Resources may also relate to entire collections, for example of sub-resources.
 - Often times the canonical representation of a resource includes a self href.
 
