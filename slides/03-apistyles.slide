@@ -97,4 +97,5 @@ raphael@goa.design
 - URI/REST is the standard, with JSON as the transport
 - It's still the Wild West out there.  Most URI/Rest variations use pieces of Hypermedia
 - JSON over REST on HTTP may be the standard, but the structure of the request/response messages varies *greatly*
+- Styles aren't exclusive, sometimes you'll have evented endpoints in an otherwise REST-ful API.
 
