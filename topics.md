@@ -16,7 +16,9 @@
   - Error handling
   - Testing
   ....
+
 9. BREAK
+
 9. Middleware as a concept - Brian
   - Build sample middleware for logging request headers (e.g.)
 10. Alternative Muxers - Brian
@@ -28,7 +30,9 @@
   - CSRF
   - XSS
   - SQL injection
+
 13. LUNCH
+
 14. Frameworks - Raphael *(IN PROGRESS)*
   - Why - helps at scale
   - Costs
@@ -37,7 +41,9 @@
 16. Codegen - why? - Brian
 17. DIY codegen, goa, go-swagger - Brian
 18. (re)build app using goa - Together
+
 18. BREAK
+
 19. Running APIs in production - Brian
   - Logging! (principles)
   - Metrics
@@ -57,6 +63,8 @@
   - Why and why not?
 26. Advanced topics: Vagrant flux - linkerd - Raphael
 27. Open Q&A - Together
+
+TIMING
 
 0. 9:00-9:05 B
 1. 9:05-9:15 B
