@@ -17,7 +17,7 @@
   - Testing
   ....
 
-9. BREAK
+9. **BREAK**
 
 9. Middleware as a concept - Brian
   - Build sample middleware for logging request headers (e.g.)
@@ -31,7 +31,7 @@
   - XSS
   - SQL injection
 
-13. LUNCH
+13. **LUNCH**
 
 14. Frameworks - Raphael *(IN PROGRESS)*
   - Why - helps at scale
@@ -42,7 +42,7 @@
 17. DIY codegen, goa, go-swagger - Brian
 18. (re)build app using goa - Together
 
-18. BREAK
+18. **BREAK**
 
 19. Running APIs in production - Brian
   - Logging! (principles)
