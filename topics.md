@@ -16,9 +16,7 @@
   - Error handling
   - Testing
   ....
-
-BREAK
-
+9. BREAK
 9. Middleware as a concept - Brian
   - Build sample middleware for logging request headers (e.g.)
 10. Alternative Muxers - Brian
@@ -30,9 +28,7 @@ BREAK
   - CSRF
   - XSS
   - SQL injection
-
-LUNCH
-
+13. LUNCH
 14. Frameworks - Raphael *(IN PROGRESS)*
   - Why - helps at scale
   - Costs
@@ -41,26 +37,24 @@ LUNCH
 16. Codegen - why? - Brian
 17. DIY codegen, goa, go-swagger - Brian
 18. (re)build app using goa - Together
-
-BREAK
-
+18. BREAK
 19. Running APIs in production - Brian
-  a. Logging! (principles)
-  b. Metrics
-  c. Tracing
+  - Logging! (principles)
+  - Metrics
+  - Tracing
 20. Add logging/metric data to API built with goa - Together
 21. Load Balancing w/ nginx - Brian
-  a. Show nginx config for app
+  - Show nginx config for app
 22. Backplane LBs - Brian
 23. Running in containers - Brian
-  a. Logging (docker logs, syslog)
-  b. Monitoring (collectd, 
+  - Logging (docker logs, syslog)
+  - Monitoring (collectd, 
 24. "Dockerize" app built in previous steps - Together
-  a. With logging
-  b. And nginx
+  - With logging
+  - And nginx
 25. Microservices - Raphael
-  a. What are they?
-  b. Why and why not?
+  - What are they?
+  - Why and why not?
 26. Advanced topics: Vagrant flux - linkerd - Raphael
 27. Open Q&A - Together
 
@@ -73,17 +67,13 @@ BREAK
 6. 10:00-10:15 *Exercise* R
 7. 10:15-10:25 B
 8. 10:25-10:45 *Exercise* B
-
-BREAK 10:45-11:00
-
+9. BREAK 10:45-11:00
 9. 11:00-11:15 *Exercise* B
 10. 11:15-11:25 B
 11. 11:25-11:35 B
 12. 11:35-11:45 *Execercise* R
 13. 11:45:11:55 R
-
-LUNCH 12:00-13:00
-
+13. LUNCH 12:00-13:00
 14. 13:00-13:05 R
 15. 13:05-13:25 *Exercise* B+R
 16. 13:25-13:35 B
@@ -91,9 +81,7 @@ LUNCH 12:00-13:00
 18. 13:45-14:10 *Exercise* R
 19. 14:10-14:25 B
 20. 14:25-14:40 *Exercise* B
-
-BREAK 14:40-15:00
-
+20. BREAK 14:40-15:00
 21. 15:05:15:15 B
 22. 15:15-15:25 B
 23. 15:25-15:40 B
