@@ -6,13 +6,13 @@
 3. Different API styles -> REST - Brian *(Mostly Done)* needs examples
 4. REST Design consideration - Raphael *(DONE)*
 5. Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(IN PROGRESS)*
-6. Design API that we will build later using Swagger editor - Raphael *(NEED INPUT)*
+6. Design API that we will build later using Swagger editor - Raphael/Together *(IN PROGRESS)*
 7. HTTP Go server (brief) - Brian
   - HTTP server "architecture" one goroutine per request, request flow
   - Routing
   - Error Handling
   - Encoding/Decoding + MIME
-8. Build a REST server in Go using 100% stdlib - Together *(NEED INPUT)*
+8. Build a REST server in Go using 100% stdlib - Brian
   - Error handling
   - Testing
   ....
@@ -37,10 +37,10 @@
   - Why - helps at scale
   - Costs
   - Echo, Gin, Goji <- "standard frameworks"
-15. Replicate API built in step 6 in any of the above framework - Together
+15. Replicate API built in step 6 in any of the above framework - ?/Together
 16. Codegen - why? - Brian
 17. DIY codegen, goa, go-swagger - Brian
-18. (re)build app using goa - Together
+18. (re)build app using goa - Raphael/Together
 
 18. **BREAK**
 
@@ -48,14 +48,14 @@
   - Logging! (principles)
   - Metrics
   - Tracing
-20. Add logging/metric data to API built with goa - Together
+20. Add logging/metric data to API built with goa - Raphael/Together
 21. Load Balancing w/ nginx - Brian
   - Show nginx config for app
 22. Backplane LBs - Brian
 23. Running in containers - Brian
   - Logging (docker logs, syslog)
   - Monitoring (collectd, 
-24. "Dockerize" app built in previous steps - Together
+24. "Dockerize" app built in previous steps - Brian/Together
   - With logging
   - And nginx
 25. Microservices - Raphael
