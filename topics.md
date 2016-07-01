@@ -1,6 +1,6 @@
 ### Topics
 
-0. 9:00-9:05 Intro - Agenda - Mode of operation (ask questions etc.)
+ 9:00-9:05 Intro - Agenda - Mode of operation (ask questions etc.)
 1. 9:05-9:15 HTTP Basics (+https, standard headers) - Brian
 2. 9:15-9:20 HTTP2 - Raphael *(DONE)*
 3. 9:20-9:35 Different API styles -> REST - Brian *(Mostly Done)* needs examples
