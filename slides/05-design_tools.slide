@@ -11,6 +11,10 @@ raphael@goa.design
 * Why?
 
 APIs stay around for a long time and are hard or impossible to change.
+
+Microservice style architecture compounds the issue by making the number of
+APIs grow exponentially.
+
 Design should involve:
 
 - Front end devs to validate needed use cases are covered
@@ -30,6 +34,10 @@ Need an easy way to share, review and iterate over design.
 - JSON and YAML notations
 - Static UI and online editor
 
+* Swagger Example
+
+.code ./samples/05_swagger.yaml
+
 * RAML
 
 .link http://raml.org/
@@ -39,6 +47,10 @@ Need an easy way to share, review and iterate over design.
 - Many tools of varying quality
 - GA two months ago
 
+* RAML Example
+
+.code ./samples/05_raml.yaml
+
 * API Blueprint
 
 .link https://apiblueprint.org/
@@ -47,6 +59,10 @@ Need an easy way to share, review and iterate over design.
 - Markdown based
 - Backed by commercial offering (apiay.io)
 
+* API Blueprint Example
+
+.code ./samples/05_apib.md
+
 * goa
 
 .link https://goa.design/
@@ -54,5 +70,13 @@ Need an easy way to share, review and iterate over design.
 - First class resource representation
 - Go based DSL
 - Outputs Swagger and code (service and client)
+
+.code ./samples/05_goa.go
+
+* API Transformer
+
+.link https://apitransformer.com/
+
+- Transform API descriptions from/to various formats
 
 * Exercise: Designing my-wine-cellar.com

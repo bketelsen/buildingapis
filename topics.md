@@ -6,7 +6,7 @@
 2. 9:15-9:20 HTTP2 - Raphael *(DONE)*
 3. 9:20-9:35 Different API styles -> REST - Brian *(Mostly Done)* needs examples
 4. 9:35-9:50 REST Design consideration - Raphael *(DONE)*
-5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(IN PROGRESS)*
+5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(DONE)*
 6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(IN PROGRESS)*
 7. 10:15-10:25 HTTP Go server (brief) - Brian
   - HTTP server "architecture" one goroutine per request, request flow

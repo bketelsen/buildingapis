@@ -1,0 +1,21 @@
+/pet:
+  /{petId}:
+    uriParameters:
+      petId:
+        description: ID of pet to return
+        type: integer
+        required: true
+        displayName: petId
+    get:
+      displayName: getPetById
+      description: Find pet by ID
+      responses:
+        200:
+          description: successful operation
+          body:
+            application/json:
+              schema: Pet
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Pet not found

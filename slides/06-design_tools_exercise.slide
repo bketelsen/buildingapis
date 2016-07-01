@@ -1,0 +1,17 @@
+Building APIs in Go
+Design Tools
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* Let's Design the GoWorkshop Service
+
+The GoWorkshop service lets users manage courses and registrations. Courses
+
+    docker run -p 80:8080 swaggerapi/swagger-editor
+
+	open http://172.17.0.2:8080/#/
