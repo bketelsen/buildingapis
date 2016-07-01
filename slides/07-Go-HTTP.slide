@@ -10,11 +10,48 @@ raphael@goa.design
 
 * Serving HTTP in Go
 
+Go has all the tools you need to build an API at any level of complexity in the Standard Library.
+
+	Go has all the tools that you need in the std lib.
+
+It's worth repeating.  
+
+Many of us come from Django, Rails, Spring, DropWizard, etc. and feel like we have to have a framework.  Go has all the pieces you need baked in.
+
+A common theme in the Go community is that dependencies are a burden that should be carefully considered before taking them on.  Frameworks are dependencies.
+
+* Architecture
+- package net/http 
+
+	Contains everything related to client and server HTTP.
+
+- "mux" ServeMux
+	
+	MUltipleXer - matches URI patterns to functions that will fulfil them.
+	Path: /foo   Handler:  fooHandler()
+	Path: /bar   Handler:  barHandler()
+
+- Handler Interface
+	
+	An elegant feature of net/http - anything that responds to "ServeHTTP" can process requests.
 
 * Architecture
 
+One goroutine per incoming request.  Each goroutine services the request and terminates when the request is complete.  
+
+- Really good performance because of how the scheduler handles IO waiting.
+- One core can handle *many* requests.
 
 * Routing
+
+- DefaultServeMux is created for you if you create an http server.
+- Add handlers by calling the `Handle` and `HandleFunc` functions
+
+	http.Handle("/api", myAPIFunction)
+
+	http.HandleFunc("/other", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello World!")
+	})
 
 
 * Error Handling
