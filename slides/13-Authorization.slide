@@ -20,11 +20,12 @@ _Auth_ employed to mean both authentication and authorization.
 
 * BasicAuth
 
-Aging technique, not very secure, subject to replay attacks, requires HTTPS.
+Aging technique, not very secure, requires HTTPS.
 
 Credential consists of base 64 encoded username and password written to
 `Authorization` header:
 
+	GET https://host.com/secured/resource
     Authorization: Basic <Base64(username:password)>
 
 * API Key / Shared secret
@@ -35,12 +36,36 @@ in VPC etc.), use HTTPS. Does not allow authentication (at least not easily).
 Credential is secret token known by both parties passed as header or query
 string value.
 
+	GET https://host.com/secured/resource
+	X-Shared-Secret: 5c4728f2b535aafc0c45b6563ef7fe424593c4cb602698b43705a1de6965c7aa
+
+or
+
+    GET https://host.com/secured/resource?token=5c4728f2b535aafc0c45b6563ef7fe424593c4cb602698b43705a1de6965c7aa
+
+* Client SSL
+
+Uses SSL extension to allow clients to authenticate using X509 certificates.
+Benefits:
+
+- well established standard
+- works everywhere
+- no or very little code required.
+
+Cons:
+
+- does not enable authorization easily
+- requires machinery for distributing and revoking certificates.
+
+Works well if clients are known in advanced.
+
 * JWT
 
 Defines a way to send encrypted data ("claims") in a request, typically in the
 form of a header:
 
-   Authorization: Bearer <JWT>
+	GET https://host.com/secured/resource
+    Authorization: Bearer <JWT>
 
 where JWT is an encrypted JSON payload contains the claims and information
 required by the other party to assert the origin of the token and decrypt it.
@@ -91,10 +116,14 @@ or the built-in goa support.
 * What Should I Do?
 
 For services that don't integrate with OAuth2 providers and don't need to
-provide OAuth2 JWT is a good choice. Use basic auth for the initial
-authentication then provide the client with a JWT.
+provide OAuth2 - JWT is a good choice as it tackles both authentication and
+authorization. Scopes a la OAuth2 can also be added to the claims to implement
+RBAC.
 
-As an improvement use a "2 legged OAuth2" scheme where the initial JWT
-(refresh token) is only good for retrieving access tokens (which could also be
-JWTs). These access tokens should be short lived, the client periodically
-re-creates access tokens using the refresh token.
+Use basic auth for the initial authentication then provide the client with a
+JWT.
+
+As an improvement use a "2 legged OAuth2" scheme where the initial JWT (refresh
+token) is only good for retrieving access tokens (which could also be JWTs).
+These access tokens should be short lived, the client periodically re-creates
+access tokens using the refresh token.

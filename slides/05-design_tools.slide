@@ -71,6 +71,8 @@ Need an easy way to share, review and iterate over design.
 - Go based DSL
 - Outputs Swagger and code (service and client)
 
+* goa Example
+
 .code ./samples/05_goa.go
 
 * API Transformer
@@ -78,5 +80,3 @@ Need an easy way to share, review and iterate over design.
 .link https://apitransformer.com/
 
 - Transform API descriptions from/to various formats
-
-* Exercise: Designing my-wine-cellar.com

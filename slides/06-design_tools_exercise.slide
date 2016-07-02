@@ -1,5 +1,5 @@
 Building APIs in Go
-Design Tools
+Design Tools Exercise
 10 Jul 2016
 
 Brian Ketelsen, Raphael Simon
@@ -11,7 +11,6 @@ raphael@goa.design
 * Let's Design the GoWorkshop Service
 
 The GoWorkshop service lets users manage courses and registrations.
-
 Use Swagger editor to design the service:
 
 - online:
@@ -21,7 +20,11 @@ Use Swagger editor to design the service:
 - using docker:
 
     docker run -p 80:8080 swaggerapi/swagger-editor
+
 then
+
     open http://127.0.0.1:8080/#/
+
 or
+
     open http://172.17.0.2:8080/#/

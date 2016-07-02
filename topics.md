@@ -7,7 +7,7 @@
 3. 9:20-9:35 Different API styles -> REST - Brian *(Mostly Done)* needs examples
 4. 9:35-9:50 REST Design consideration - Raphael *(DONE)*
 5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(DONE)*
-6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(IN PROGRESS)*
+6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(DONE)*
 7. 10:15-10:25 HTTP Go server (brief) - Brian
   - HTTP server "architecture" one goroutine per request, request flow
   - Routing
@@ -15,8 +15,7 @@
   - Encoding/Decoding + MIME
 8. 10:25-10:45 Build a REST server in Go using 100% stdlib - Brian
   - Error handling
-  - Testing
-  ....
+  - Testing ....
 
 9. 10:45-11:00 **BREAK**
 
@@ -24,10 +23,10 @@
   - Build sample middleware for logging request headers (e.g.)
 11. 11:15-11:25 Alternative Muxers - Brian
 12. 11:25-11:35 Middleware packages (Alice) - Brian
-13. 11:35-11:45 Authorization - Raphael *(IN PROGRESS)*
+13. 11:35-11:45 Authorization - Raphael *(DONE)*
   - Basic Auth, Shared secrets, JWT, OAuth2
   - Add basic auth to sample
-14. 11:45-11:55 Security - Raphael
+14. 11:45-11:55 Security - Raphael *(DONE)*
   - CSRF
   - XSS
   - SQL injection
