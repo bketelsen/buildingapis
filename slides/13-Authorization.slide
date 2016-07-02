@@ -28,6 +28,14 @@ Credential consists of base 64 encoded username and password written to
 	GET https://host.com/secured/resource
     Authorization: Basic <Base64(username:password)>
 
+* BasicAuth in Go
+
+Support built-in in `http` package:
+
+    func (r *Request) SetBasicAuth(username, password string)
+
+    func (r *Request) BasicAuth() (username, password string, ok bool)
+
 * API Key / Shared secret
 
 Not very secure, only use as second level of defense (e.g. behind firewalls,
@@ -42,6 +50,16 @@ string value.
 or
 
     GET https://host.com/secured/resource?token=5c4728f2b535aafc0c45b6563ef7fe424593c4cb602698b43705a1de6965c7aa
+
+* API Key / Shared secret in Go
+
+Uses header or query string:
+
+    r.Header.Get("X-Shared-Secret")
+
+    r.URL.Query().Get("token")
+
+where `r` is a `*http.Request`.
 
 * Client SSL
 
@@ -59,12 +77,18 @@ Cons:
 
 Works well if clients are known in advanced.
 
+* Client SSL in Go
+
+Configure http transport with TLS config:
+
+.code ./samples/13-client_tls.go
+
 * JWT
 
 Defines a way to send encrypted data ("claims") in a request, typically in the
 form of a header:
 
-	GET https://host.com/secured/resource
+    GET https://host.com/secured/resource
     Authorization: Bearer <JWT>
 
 where JWT is an encrypted JSON payload contains the claims and information
@@ -75,6 +99,12 @@ token in the first place.
 
 The JWT claims may include any arbitrary data including a user identifier for
 authentication, roles for access control, expiry date etc 
+
+* JWT in Go
+
+Currently the most popular package seems to be https://github.com/dgrijalva/jwt-go
+
+.code ./samples/13-jwt.go
 
 * OAuth2
 
@@ -100,7 +130,7 @@ Facebook user).
 
 .link http://tools.ietf.org/html/rfc6749
 
-* OAuth2 (2)
+* OAuth2 in Go
 
 For services that need to integrate with OAuth2 providers (Facebook, Google,
 Twitter etc.) use the golang OAuth2 client package.
