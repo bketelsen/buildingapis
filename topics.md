@@ -26,7 +26,7 @@
 13. 11:35-11:45 Authorization - Raphael *(DONE)*
   - Basic Auth, Shared secrets, JWT, OAuth2
   - Add basic auth to sample
-14. 11:45-11:55 Security - Raphael *(DONE)*
+14. 11:45-11:50 Security - Raphael *(DONE)*
   - CSRF
   - XSS
   - SQL injection
