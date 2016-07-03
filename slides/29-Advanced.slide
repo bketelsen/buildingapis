@@ -8,4 +8,41 @@ bketelsen@goa.design
 raphael@goa.design
 @rgsimon
 
-* Advanced Topics
+* API Gateways
+
+Serve as a frontend to APIs. Can take care of:
+
+- Authorization
+- Access control
+- Request throtlling
+- Traffic management (e.g. Blue/green deployment model)
+- Monitoring
+
+* API Gateway Examples
+
+- AWS API Gateway service
+- tyk - https://tyk.io - Go, open source MPLv2 license.
+- kong - https://github.com/Mashape/kong - nginx + lua, open source Apache v2 license.
+- linkerd - https://linkerd.io - integrates service discovery, more focus on microservices.
+
+* PaaS / "Serverless"
+
+Deploy you code directly to hosting serivce. Great choice when possible.
+
+- Often times runtime restrictions (e.g. no disk access, can't spawn child processes)
+
+* PaaS / "Serverless" Examples
+
+Services that can run Go:
+
+- Google Appengine - Great choice if limitations are OK, generous free tier.
+- Heroku - Rich ecosystem, not cheap.
+- Golang Cloud - http://www.golang-cloud.com/en
+- Cloud Foundry - requires buildpack: https://github.com/cloudfoundry/go-buildpack
+- AWS Lambda - requires trickery, e.g. https://github.com/jasonmoo/lambda_proc
+
+Use build tags to write portable apps.
+
+* Appengine
+
+.code ./samples/29-appengine.go
