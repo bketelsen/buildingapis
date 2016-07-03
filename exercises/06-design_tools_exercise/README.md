@@ -5,7 +5,7 @@ The GoWorkshop API consists of two resources:
 * `courses` represent a specific workshop course with start and end times and a location.
 * `registrations` represent a registration to a course with details about the attendee.
 
-It should be possible to create, list and delete courses and create and list registrations.
+It should be possible to create, show and delete courses and create, show and list registrations.
 
 The course type should have the following fields:
 

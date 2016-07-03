@@ -43,7 +43,13 @@ frameworks that have been around for a little while.
 
 .link https://github.com/gin-gonic/gin
 
-.code ./samples/14-gin.go
+* Gin - Sample
+
+.code ./samples/16-gin.go
+
+* Gin - Sample (2)
+
+.code ./samples/16-gin-post.go /type/,/OMIT/
 
 * Echo
 
@@ -55,11 +61,11 @@ frameworks that have been around for a little while.
 
 * Echo - Sample
 
-.code ./samples/14-echo.go
+.code ./samples/16-echo.go
 
 * Echo - Sample (2)
 
-.code ./samples/14-echo-post.go
+.code ./samples/16-echo-post.go
 
 * Goji
 
@@ -70,5 +76,20 @@ frameworks that have been around for a little while.
 
 * Goji - Sample
 
-.code ./samples/14-goji.go
+.code ./samples/16-goji.go
 
+* goa
+
+- Newcomer
+- Design first
+- Code generation
+
+.link https://github.com/goadesign/goa
+
+* goa - Sample
+
+.code ./samples/16-goa.go
+
+* goa - Sample (2)
+
+.code ./samples/16-goa-imp.go /\/\//,/OMIT/

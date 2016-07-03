@@ -9,8 +9,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app/test"
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app/test"
+	"github.com/bketelsen/buildingapis/exercises/library"
 )
 
 const (
@@ -23,7 +24,7 @@ var name = "building"
 
 func TestCreateCourse(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 		start   = time.Now()
@@ -95,7 +96,7 @@ func TestCreateCourse(t *testing.T) {
 
 func TestCreateCourseBadRequest(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 		start   = time.Now()
@@ -141,7 +142,7 @@ func TestCreateCourseBadRequest(t *testing.T) {
 
 func TestShowCourseOK(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 		start   = time.Now()
@@ -183,7 +184,7 @@ func TestShowCourseOK(t *testing.T) {
 
 func TestShowCourseNotFound(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 	)
@@ -193,7 +194,7 @@ func TestShowCourseNotFound(t *testing.T) {
 
 func TestShowCourseDeleteNoContent(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 		start   = time.Now()
@@ -233,7 +234,7 @@ func TestShowCourseDeleteNoContent(t *testing.T) {
 
 func TestDeleteCourseNotFound(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 	)
@@ -243,7 +244,7 @@ func TestDeleteCourseNotFound(t *testing.T) {
 
 func TestListCourseOK(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewCourseController(service, db)
 		start   = time.Now()

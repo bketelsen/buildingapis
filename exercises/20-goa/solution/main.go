@@ -1,18 +1,19 @@
-//go:generate goagen bootstrap -d github.com/gophercon/buildingapis/workshop/18-goa/design
+//go:generate goagen bootstrap -d github.com/bketelsen/buildingapis/exercises/20-goa/solution/design
 
 package main
 
 import (
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/exercises/library"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/logging/log15"
 	"github.com/goadesign/goa/middleware"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
 	"github.com/inconshreveable/log15"
 )
 
 func main() {
 	// Create a new data base and load fixtures
-	db := NewDB()
+	db := library.NewDB()
 
 	// Instantiate logger
 	logger := log15.New()
@@ -39,7 +40,7 @@ func main() {
 }
 
 // NewService instantiates and configures a new GoWorkshop service.
-func NewService(db *MemDB) *goa.Service {
+func NewService(db *library.MemDB) *goa.Service {
 	// Create service
 	service := goa.New("GoWorkshop")
 

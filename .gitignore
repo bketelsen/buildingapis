@@ -22,3 +22,4 @@ _testmain.go
 *.exe
 *.test
 *.prof
+exercises/17-Frameworks_exercise/solution/goa/goa

@@ -5,18 +5,19 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/exercises/library"
 	"github.com/goadesign/goa"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
 )
 
 // RegistrationController implements the registration resource.
 type RegistrationController struct {
 	*goa.Controller
-	db *MemDB
+	db *library.MemDB
 }
 
 // NewRegistrationController creates a registration controller.
-func NewRegistrationController(service *goa.Service, db *MemDB) *RegistrationController {
+func NewRegistrationController(service *goa.Service, db *library.MemDB) *RegistrationController {
 	return &RegistrationController{
 		Controller: service.NewController("RegistrationController"),
 		db:         db,
@@ -45,7 +46,7 @@ func (c *RegistrationController) List(ctx *app.ListRegistrationContext) error {
 // Show runs the Show action.
 func (c *RegistrationController) Show(ctx *app.ShowRegistrationContext) error {
 	im, err := c.db.Get("registrations", "id", strconv.Itoa(ctx.ID))
-	if err != nil && err != ErrNotFound {
+	if err != nil && err != library.ErrNotFound {
 		return err // internal error
 	}
 	if im == nil {
@@ -64,8 +65,8 @@ func (c *RegistrationController) Show(ctx *app.ShowRegistrationContext) error {
 // Create runs the Create action.
 func (c *RegistrationController) Create(ctx *app.CreateRegistrationContext) error {
 	payload := ctx.Payload
-	model := &RegistrationModel{
-		ID:        newID(),
+	model := &library.RegistrationModel{
+		ID:        library.NewID(),
 		CourseID:  courseIDFromHref(payload.CourseHref),
 		FirstName: payload.FirstName,
 		LastName:  payload.LastName,
@@ -82,12 +83,12 @@ func (c *RegistrationController) Create(ctx *app.CreateRegistrationContext) erro
 func (c *RegistrationController) Patch(ctx *app.PatchRegistrationContext) error {
 	i, err := c.db.Get("registrations", "id", strconv.Itoa(ctx.ID))
 	if err != nil {
-		if err == ErrNotFound {
+		if err == library.ErrNotFound {
 			return ctx.NotFound()
 		}
 		return err // internal error
 	}
-	m := i.(*RegistrationModel)
+	m := i.(*library.RegistrationModel)
 	p := ctx.Payload
 	fname := p.FirstName
 	if fname != nil {
@@ -114,8 +115,8 @@ func courseIDFromHref(href string) string {
 }
 
 // addressFromPayload creates an address model.
-func addressFromPayload(payload *app.Address) *Address {
-	return &Address{
+func addressFromPayload(payload *app.Address) *library.Address {
+	return &library.Address{
 		Number: payload.Number,
 		Street: payload.Street,
 		City:   payload.City,
@@ -125,7 +126,7 @@ func addressFromPayload(payload *app.Address) *Address {
 }
 
 func registrationToMedia(i interface{}) *app.RegistrationMedia {
-	m := i.(*RegistrationModel)
+	m := i.(*library.RegistrationModel)
 	id, err := strconv.Atoi(m.ID)
 	if err != nil {
 		panic("invalid registration ID - must be an int") // bug
@@ -155,8 +156,9 @@ func registrationToMedia(i interface{}) *app.RegistrationMedia {
 	}
 	return mt
 }
-func registrationToMediaExtended(i interface{}, db *MemDB) (*app.RegistrationMediaExtended, error) {
-	m := i.(*RegistrationModel)
+
+func registrationToMediaExtended(i interface{}, db *library.MemDB) (*app.RegistrationMediaExtended, error) {
+	m := i.(*library.RegistrationModel)
 	id, err := strconv.Atoi(m.ID)
 	if err != nil {
 		panic("invalid registration ID - must be an int") // bug
@@ -165,12 +167,12 @@ func registrationToMediaExtended(i interface{}, db *MemDB) (*app.RegistrationMed
 	if err != nil {
 		panic("invalid course ID - must be an int") // bug
 	}
-	txn := db.db.Txn(false)
+	txn := db.Txn(false)
 	i, err = txn.First("courses", "id", m.CourseID)
 	if err != nil {
 		return nil, err
 	}
-	cm := i.(*CourseModel)
+	cm := i.(*library.CourseModel)
 	cmID, err := strconv.Atoi(cm.ID)
 	if err != nil {
 		return nil, fmt.Errorf("invalid course ID, must be an int, got %s", cm.ID)

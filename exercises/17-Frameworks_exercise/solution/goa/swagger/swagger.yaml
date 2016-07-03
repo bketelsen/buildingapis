@@ -1,0 +1,472 @@
+consumes:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+definitions:
+  Address:
+    description: Address is a street address
+    properties:
+      city:
+        description: City
+        example: i0
+        minLength: 1
+        type: string
+      number:
+        description: Street number
+        example: 1
+        minimum: 1
+        type: integer
+      state:
+        description: US State Code
+        example: v4
+        maxLength: 2
+        minLength: 2
+        type: string
+      street:
+        description: Street name
+        example: ved
+        minLength: 1
+        type: string
+      zip:
+        description: US Zip code
+        example: 49477
+        maximum: 99999
+        minimum: 10000
+        type: integer
+    required:
+    - number
+    - street
+    - city
+    - state
+    - zip
+    title: Address
+    type: object
+  CourseMedia:
+    description: CourseMedia is the media type used to render courses
+    example:
+      description: Sint consequatur et quo sint.
+      end_time: 2011-05-03T21:18:55-07:00
+      href: Rerum ratione veritatis.
+      id: 4.7748744e+18
+      location: Nihil ipsam et sit iure excepturi.
+      name: Aut perferendis eveniet eos atque.
+      start_time: 1995-02-23T04:30:24-08:00
+    properties:
+      description:
+        description: Course description
+        example: Voluptas atque.
+        type: string
+      end_time:
+        description: Course end date/time
+        example: 1993-06-23T07:55:55-07:00
+        format: date-time
+        type: string
+      href:
+        description: Course href
+        example: Quis non.
+        type: string
+      id:
+        description: Course identifier
+        example: 5.139529e+18
+        format: int64
+        type: integer
+      location:
+        description: Course location
+        example: eex
+        minLength: 2
+        type: string
+      name:
+        description: Course name
+        example: dn6fr
+        minLength: 3
+        type: string
+      start_time:
+        description: Course start date/time
+        example: 1975-02-01T11:28:31-08:00
+        format: date-time
+        type: string
+    required:
+    - id
+    - href
+    - name
+    - start_time
+    - end_time
+    - location
+    title: 'Mediatype identifier: application/vnd.goworkshop.course+json'
+    type: object
+  CreateCoursePayload:
+    description: CoursePayload is the type used to create courses
+    properties:
+      description:
+        description: Course description
+        type: string
+      end_time:
+        description: Course end date/time
+        format: date-time
+        type: string
+      location:
+        description: Course location
+        minLength: 2
+        type: string
+      name:
+        description: Course name
+        minLength: 3
+        type: string
+      start_time:
+        description: Course start date/time
+        format: date-time
+        type: string
+    required:
+    - name
+    - start_time
+    - end_time
+    - location
+    title: CreateCoursePayload
+    type: object
+  CreateRegistrationPayload:
+    description: RegistrationPayload is the type used to create registrations
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      course_href:
+        description: The href to the course resource that describes the course being
+          taught
+        pattern: /courses/[0-9]+
+        type: string
+      first_name:
+        description: Attendee first name
+        minLength: 2
+        type: string
+      last_name:
+        description: Attendee last name
+        minLength: 2
+        type: string
+    required:
+    - course_href
+    - first_name
+    - last_name
+    - address
+    title: CreateRegistrationPayload
+    type: object
+  Error:
+    description: Error response media type
+    example:
+      code: invalid_value
+      detail: Value of ID must be an integer
+      id: 3F1FKVRR
+      meta:
+        timestamp: 1.458609e+09
+      status: "400"
+    properties:
+      code:
+        description: an application-specific error code, expressed as a string value.
+        example: invalid_value
+        type: string
+      detail:
+        description: a human-readable explanation specific to this occurrence of the
+          problem.
+        example: Value of ID must be an integer
+        type: string
+      id:
+        description: a unique identifier for this particular occurrence of the problem.
+        example: 3F1FKVRR
+        type: string
+      meta:
+        additionalProperties: true
+        description: a meta object containing non-standard meta-information about
+          the error.
+        example:
+          timestamp: 1.458609e+09
+        type: object
+      status:
+        description: the HTTP status code applicable to this problem, expressed as
+          a string value.
+        example: "400"
+        type: string
+    title: 'Mediatype identifier: application/vnd.api.error+json'
+    type: object
+  RegistrationMedia:
+    description: RegistrationMedia is the media type used to render registrations
+    example:
+      address:
+        city: Aut est autem et sunt ratione aliquid.
+        number: 8.727216e+18
+        state: Consequuntur atque quod corporis ea.
+        street: Sequi ut ut voluptates labore quia doloribus.
+        zip: 1.7769489e+18
+      course:
+        description: Qui quisquam voluptatem maxime magnam ipsam dignissimos.
+        end_time: 2010-05-06T07:01:36-07:00
+        href: Omnis iste velit.
+        id: 3.772009e+18
+        location: Iure enim nisi necessitatibus quod fugiat quidem.
+        name: Sit harum minima asperiores qui numquam.
+        start_time: 1978-03-23T03:23:49-08:00
+      first_name: Quis eveniet.
+      href: Vitae et maiores.
+      id: 4.239908e+18
+      last_name: Suscipit eaque qui.
+    properties:
+      address:
+        $ref: '#/definitions/Address'
+      course:
+        $ref: '#/definitions/CourseMedia'
+      first_name:
+        description: Attendee first name
+        example: dt
+        minLength: 2
+        type: string
+      href:
+        description: Registration href
+        example: Blanditiis est perspiciatis et sit.
+        type: string
+      id:
+        description: Registration identifier
+        example: 1.7806846e+18
+        format: int64
+        type: integer
+      last_name:
+        description: Attendee last name
+        example: co1
+        minLength: 2
+        type: string
+    required:
+    - id
+    - href
+    - course
+    - first_name
+    - last_name
+    - address
+    title: 'Mediatype identifier: application/vnd.goworkshop.registration+json'
+    type: object
+  RegistrationMediaCollection:
+    example:
+    - address:
+        city: Dolorem nesciunt repudiandae et rerum a.
+        number: 4.281606e+18
+        state: Et excepturi non qui voluptas architecto.
+        street: Vel ut odio maiores mollitia.
+        zip: 5.069693e+18
+      course:
+        description: Et ea assumenda et.
+        end_time: 1977-06-24T04:56:57-07:00
+        href: Minima sit eum odit quis ipsa.
+        id: 3.769979e+18
+        location: Natus molestias officia mollitia quos molestiae incidunt.
+        name: Iure blanditiis ut.
+        start_time: 1972-03-09T04:27:55-08:00
+      first_name: Dolor rem quo voluptatem qui repudiandae.
+      href: Eos voluptas enim consequatur.
+      id: 5.7195743e+18
+      last_name: Adipisci tempora ut quia quo.
+    - address:
+        city: Voluptatum ut velit expedita numquam.
+        number: 3.062518e+18
+        state: Sit delectus.
+        street: Delectus ut.
+        zip: 2.8366804e+18
+      course:
+        description: Maiores sint velit facilis.
+        end_time: 1970-08-22T11:08:14-07:00
+        href: In velit in aliquid est.
+        id: 2.8702556e+18
+        location: Facere adipisci sit magni voluptas itaque.
+        name: Autem quidem repudiandae iusto.
+        start_time: 1973-11-02T17:37:29-08:00
+      first_name: Qui vero est vero culpa nihil sed.
+      href: Aliquid et voluptate vitae.
+      id: 2.1133364e+18
+      last_name: Sunt voluptate repudiandae et provident occaecati.
+    - address:
+        city: Quod aut enim vel magnam debitis aut.
+        number: 7.330481e+17
+        state: Minus delectus vitae.
+        street: Dolore modi praesentium totam voluptatem eum id.
+        zip: 6.5198505e+18
+      course:
+        description: Sequi magnam placeat incidunt architecto rerum sequi.
+        end_time: 1983-03-07T20:30:11-08:00
+        href: Sint et quia.
+        id: 5.617551e+18
+        location: Consequatur qui.
+        name: At vel voluptatem.
+        start_time: 1996-04-01T00:40:02-08:00
+      first_name: Vero maiores magnam.
+      href: Error occaecati omnis ipsa.
+      id: 8.174626e+18
+      last_name: Ab rem autem deleniti asperiores nostrum maiores.
+    items:
+      $ref: '#/definitions/RegistrationMedia'
+    title: 'Mediatype identifier: application/vnd.goworkshop.registration+json; type=collection'
+    type: array
+host: localhost:8080
+info:
+  description: GoWorkshop is a simple example service that exposes a REST API
+  title: The Universal Workshop Service
+  version: ""
+paths:
+  /courses:
+    post:
+      description: Create a new course
+      operationId: course#create
+      parameters:
+      - description: CoursePayload is the type used to create courses
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateCoursePayload'
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              description: Newly created course href
+              pattern: /registrations/[0-9]+
+              type: string
+          schema:
+            $ref: '#/definitions/CourseMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+      schemes:
+      - http
+      summary: create course
+      tags:
+      - course
+  /courses/{id}:
+    delete:
+      description: Delete a course
+      operationId: course#delete
+      parameters:
+      - description: The course ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: delete course
+      tags:
+      - course
+    get:
+      description: Show a courses
+      operationId: course#show
+      parameters:
+      - description: The course ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/CourseMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show course
+      tags:
+      - course
+  /registrations:
+    get:
+      description: List all registrations
+      operationId: registration#list
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/RegistrationMediaCollection'
+      schemes:
+      - http
+      summary: list registration
+      tags:
+      - registration
+    post:
+      description: Create a new registration
+      operationId: registration#create
+      parameters:
+      - description: RegistrationPayload is the type used to create registrations
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/CreateRegistrationPayload'
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              description: Newly created registration href
+              pattern: /registrations/[0-9]+
+              type: string
+          schema:
+            $ref: '#/definitions/RegistrationMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+      schemes:
+      - http
+      summary: create registration
+      tags:
+      - registration
+  /registrations/{id}:
+    get:
+      description: Show a registration
+      operationId: registration#show
+      parameters:
+      - description: The registration ID
+        in: path
+        minimum: 1
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/RegistrationMedia'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        "404":
+          description: Not Found
+      schemes:
+      - http
+      summary: show registration
+      tags:
+      - registration
+produces:
+- application/json
+- application/xml
+- application/gob
+- application/x-gob
+responses:
+  NoContent:
+    description: No Content
+  NotFound:
+    description: Not Found
+schemes:
+- http
+swagger: "2.0"

@@ -3,18 +3,19 @@ package main
 import (
 	"strconv"
 
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/exercises/library"
 	"github.com/goadesign/goa"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
 )
 
 // CourseController implements the course resource.
 type CourseController struct {
 	*goa.Controller
-	db *MemDB
+	db *library.MemDB
 }
 
 // NewCourseController creates a course controller.
-func NewCourseController(service *goa.Service, db *MemDB) *CourseController {
+func NewCourseController(service *goa.Service, db *library.MemDB) *CourseController {
 	return &CourseController{
 		Controller: service.NewController("CourseController"),
 		db:         db,
@@ -44,7 +45,7 @@ func (c *CourseController) List(ctx *app.ListCourseContext) error {
 // Show runs the Show action.
 func (c *CourseController) Show(ctx *app.ShowCourseContext) error {
 	im, err := c.db.Get("courses", "id", strconv.Itoa(ctx.ID))
-	if err != nil && err != ErrNotFound {
+	if err != nil && err != library.ErrNotFound {
 		return err // internal error
 	}
 	if im == nil {
@@ -60,8 +61,8 @@ func (c *CourseController) Create(ctx *app.CreateCourseContext) error {
 	if payload.Description != nil {
 		desc = *payload.Description
 	}
-	model := &CourseModel{
-		ID:          newID(),
+	model := &library.CourseModel{
+		ID:          library.NewID(),
 		Name:        payload.Name,
 		Description: desc,
 		StartTime:   payload.StartTime,
@@ -78,7 +79,7 @@ func (c *CourseController) Create(ctx *app.CreateCourseContext) error {
 // Delete runs the Delete action.
 func (c *CourseController) Delete(ctx *app.DeleteCourseContext) error {
 	if err := c.db.Delete("courses", "id", strconv.Itoa(ctx.ID)); err != nil {
-		if err == ErrNotFound {
+		if err == library.ErrNotFound {
 			return ctx.NotFound()
 		}
 		return err // internal error
@@ -90,12 +91,12 @@ func (c *CourseController) Delete(ctx *app.DeleteCourseContext) error {
 func (c *CourseController) Patch(ctx *app.PatchCourseContext) error {
 	i, err := c.db.Get("courses", "id", strconv.Itoa(ctx.ID))
 	if err != nil {
-		if err == ErrNotFound {
+		if err == library.ErrNotFound {
 			return ctx.NotFound()
 		}
 		return err // internal error
 	}
-	m := i.(*CourseModel)
+	m := i.(*library.CourseModel)
 	p := ctx.Payload
 	desc := p.Description
 	if desc != nil {
@@ -120,7 +121,7 @@ func (c *CourseController) Patch(ctx *app.PatchCourseContext) error {
 }
 
 func courseToMedia(i interface{}) *app.CourseMedia {
-	m := i.(*CourseModel)
+	m := i.(*library.CourseModel)
 	id, err := strconv.Atoi(m.ID)
 	if err != nil {
 		panic("invalid course ID - must be an int") // bug

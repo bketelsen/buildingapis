@@ -33,10 +33,7 @@
 
 15. 12:00-13:00 **LUNCH**
 
-16. 13:00-13:05 Frameworks - Raphael *(IN PROGRESS)*
-  - Why - helps at scale
-  - Costs
-  - Echo, Gin, Goji <- "standard frameworks"
+16. 13:00-13:05 Frameworks - Raphael *(DONE)*
 17. 13:05-13:25 Replicate API built in step 6 in any of the above framework - ?/Together
 18. 13:25-13:35 Codegen - why? - Brian
 20. 13:35-13:45 DIY codegen, goa, go-swagger - Brian

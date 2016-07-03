@@ -1,9 +1,9 @@
 package design
 
 import (
+	. "github.com/bketelsen/buildingapis/exercises/20-goa/solution/design/public"
 	. "github.com/goadesign/goa/design"
 	. "github.com/goadesign/goa/design/apidsl"
-	. "github.com/gophercon/buildingapis/workshop/18-goa/design/public"
 )
 
 // Define a few constants so we can easily switch between development and production values.

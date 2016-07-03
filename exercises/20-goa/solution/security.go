@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/exercises/library"
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware/security/jwt"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 )
@@ -24,7 +25,7 @@ const (
 )
 
 // basicAuth is the basic auth middleware.
-func basicAuth(db *MemDB) goa.Middleware {
+func basicAuth(db *library.MemDB) goa.Middleware {
 	return func(h goa.Handler) goa.Handler {
 		return func(ctx context.Context, rw http.ResponseWriter, req *http.Request) error {
 			// Retrieve basic auth email and password
@@ -38,7 +39,7 @@ func basicAuth(db *MemDB) goa.Middleware {
 			if err != nil {
 				return goa.ErrUnauthorized(FailAuthMessage)
 			}
-			user := i.(*UserModel)
+			user := i.(*library.UserModel)
 
 			// Compare passwords
 			if bcrypt.CompareHashAndPassword([]byte(pass), []byte(user.HashedPassword)) != nil {
@@ -53,9 +54,9 @@ func basicAuth(db *MemDB) goa.Middleware {
 }
 
 // contextUser extracts the user set by basic auth from the context.
-func contextUser(ctx context.Context) *UserModel {
+func contextUser(ctx context.Context) *library.UserModel {
 	if i := ctx.Value(userKey); i != nil {
-		return i.(*UserModel)
+		return i.(*library.UserModel)
 	}
 	return nil
 }

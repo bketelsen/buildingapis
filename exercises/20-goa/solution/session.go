@@ -6,9 +6,9 @@ import (
 	"io/ioutil"
 	"time"
 
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
 	"github.com/satori/go.uuid"
 )
 

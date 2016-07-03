@@ -10,8 +10,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/gophercon/buildingapis/workshop/18-goa/app"
-	"github.com/gophercon/buildingapis/workshop/18-goa/app/test"
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app/test"
+	"github.com/bketelsen/buildingapis/exercises/library"
 )
 
 const (
@@ -44,7 +45,7 @@ var (
 
 func TestCreateRegistration(t *testing.T) {
 	var (
-		db         = NewEmptyDB()
+		db         = library.NewEmptyDB()
 		service    = NewService(db)
 		ctrl       = NewRegistrationController(service, db)
 		courseCtrl = NewCourseController(service, db)
@@ -104,7 +105,7 @@ func TestCreateRegistration(t *testing.T) {
 
 func TestCreateRegistrationBadRequest(t *testing.T) {
 	var (
-		db         = NewEmptyDB()
+		db         = library.NewEmptyDB()
 		service    = NewService(db)
 		ctrl       = NewRegistrationController(service, db)
 		courseCtrl = NewCourseController(service, db)
@@ -152,7 +153,7 @@ func TestCreateRegistrationBadRequest(t *testing.T) {
 
 func TestShowRegistrationOK(t *testing.T) {
 	var (
-		db         = NewEmptyDB()
+		db         = library.NewEmptyDB()
 		service    = NewService(db)
 		ctrl       = NewRegistrationController(service, db)
 		courseCtrl = NewCourseController(service, db)
@@ -183,7 +184,7 @@ func TestShowRegistrationOK(t *testing.T) {
 
 func TestShowRegistrationOKExtended(t *testing.T) {
 	var (
-		db         = NewEmptyDB()
+		db         = library.NewEmptyDB()
 		service    = NewService(db)
 		ctrl       = NewRegistrationController(service, db)
 		courseCtrl = NewCourseController(service, db)
@@ -224,7 +225,7 @@ func TestShowRegistrationOKExtended(t *testing.T) {
 
 func TestShowRegistrationNotFound(t *testing.T) {
 	var (
-		db      = NewEmptyDB()
+		db      = library.NewEmptyDB()
 		service = NewService(db)
 		ctrl    = NewRegistrationController(service, db)
 	)
@@ -234,7 +235,7 @@ func TestShowRegistrationNotFound(t *testing.T) {
 
 func TestListRegistrationOK(t *testing.T) {
 	var (
-		db                      = NewEmptyDB()
+		db                      = library.NewEmptyDB()
 		service                 = NewService(db)
 		ctrl                    = NewRegistrationController(service, db)
 		courseCtrl              = NewCourseController(service, db)
