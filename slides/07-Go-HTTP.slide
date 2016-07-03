@@ -1,4 +1,4 @@
-API Styles
+HTTP in Go
 Building APIs in Go
 10 Jul 2016
 
@@ -53,8 +53,45 @@ One goroutine per incoming request.  Each goroutine services the request and ter
 		fmt.Fprintf(w, "Hello World!")
 	})
 
+- ServeMux is a `Handler`, and you can nest them.  Turtles all the way down if you want.
+
 
 * Error Handling
 
+At the most simple level, you can send an error back to the client by using the Error() function.
+
+	Signature:	http.Error(w http.ResponseWriter, error string, code int)
+	
+	http.Error(w, "Bad Things Happened", http.StatusInternalServerError)
+
+You can use it just like this, but many choose to create wrapper functions.
+.code samples/07-Go-HTTP.go
+
+
 
 * Encoding/Decoding (MIME)
+
+A web server should set a `Content-Type` header to tell the client how the data is encoded.  
+
+Similarly a client will set an `Accept` header telling the web server what encoding it prefers.  
+
+A correctly built client will always set an `Accept` header, and a correctly built server will always set the `Content-Type` header.
+
+
+* Encoding - Detecting requested content type
+
+Determine the client's preference by reading the `Accept` header from the http.Request.
+
+.code samples/07-accept.go
+
+
+* Encoding - Setting the content type in the response
+
+	w.Header().Set("Content-Type", "application/json")
+
+.code samples/07-setcontent.go
+
+* Encoding - A better way
+
+
+.code samples/07-encoder.go
