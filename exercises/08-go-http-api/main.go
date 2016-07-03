@@ -16,8 +16,8 @@ import (
 var db *library.MemDB
 
 const (
-	courseBase       = "/api/courses"
-	registrationBase = "/api/registrations"
+	courseBase       = "/api/courses/"
+	registrationBase = "/api/registrations/"
 )
 
 var ErrBadPath = errors.New("Bad Request Path")
@@ -73,7 +73,6 @@ func main() {
 }
 
 func courses(w http.ResponseWriter, r *http.Request) {
-
 	w.Header().Add("Allow", "OPTIONS,GET,POST")
 	if r.Method == "OPTIONS" {
 		return
@@ -91,8 +90,10 @@ func courses(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
+					return
 				} else {
 					jsonError(w, err.Error(), http.StatusInternalServerError)
+					return
 				}
 			}
 			courselist := courselistToCourseSlice(cc)
@@ -106,8 +107,10 @@ func courses(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
+					return
 				} else {
 					jsonError(w, err.Error(), http.StatusInternalServerError)
+					return
 				}
 			}
 			course := courseToCourse(c)
@@ -179,6 +182,7 @@ func idOrList(base, path string) (string, error) {
 
 func courseToCourse(i interface{}) *Course {
 	m := i.(*library.CourseModel)
+
 	id, err := strconv.Atoi(m.ID)
 	if err != nil {
 		panic("invalid course ID - must be an int") // bug
