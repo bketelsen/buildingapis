@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/client"
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/tool/cli"
-	goaclient "github.com/goadesign/goa/client"
-	"github.com/spf13/cobra"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/bketelsen/buildingapis/workshop/service/client"
+	"github.com/bketelsen/buildingapis/workshop/service/tool/cli"
+	goaclient "github.com/goadesign/goa/client"
+	"github.com/spf13/cobra"
 )
 
 func main() {

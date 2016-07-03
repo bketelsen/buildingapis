@@ -9,9 +9,9 @@ import (
 
 	"golang.org/x/net/context"
 
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app/test"
 	"github.com/bketelsen/buildingapis/exercises/library"
+	"github.com/bketelsen/buildingapis/workshop/service/app"
+	"github.com/bketelsen/buildingapis/workshop/service/app/test"
 )
 
 const (

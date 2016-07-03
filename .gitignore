@@ -24,3 +24,4 @@ _testmain.go
 *.prof
 exercises/17-Frameworks_exercise/solution/goa/goa
 21-goa/solution/solution
+workshop/service/service

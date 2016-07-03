@@ -1,10 +1,10 @@
-//go:generate goagen bootstrap -d github.com/bketelsen/buildingapis/exercises/20-goa/solution/design
+//go:generate goagen bootstrap -d github.com/bketelsen/buildingapis/workshop/service/design
 
 package main
 
 import (
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
 	"github.com/bketelsen/buildingapis/exercises/library"
+	"github.com/bketelsen/buildingapis/workshop/service/app"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/logging/log15"
 	"github.com/goadesign/goa/middleware"
