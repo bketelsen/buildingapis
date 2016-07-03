@@ -36,7 +36,7 @@ Need an easy way to share, review and iterate over design.
 
 * Swagger Example
 
-.code ./samples/05_swagger.yaml
+.code ./samples/05-swagger.yaml
 
 * RAML
 
@@ -49,7 +49,7 @@ Need an easy way to share, review and iterate over design.
 
 * RAML Example
 
-.code ./samples/05_raml.yaml
+.code ./samples/05-raml.yaml
 
 * API Blueprint
 
@@ -61,7 +61,7 @@ Need an easy way to share, review and iterate over design.
 
 * API Blueprint Example
 
-.code ./samples/05_apib.md
+.code ./samples/05-apib.md
 
 * goa
 
@@ -73,7 +73,7 @@ Need an easy way to share, review and iterate over design.
 
 * goa Example
 
-.code ./samples/05_goa.go
+.code ./samples/05-goa.go
 
 * API Transformer
 
