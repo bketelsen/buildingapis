@@ -3,7 +3,7 @@ package cli
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/client"
+	"github.com/bketelsen/buildingapis/workshop/service/client"
 	"github.com/goadesign/goa"
 	goaclient "github.com/goadesign/goa/client"
 	"github.com/spf13/cobra"

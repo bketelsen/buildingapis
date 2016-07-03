@@ -3,7 +3,7 @@ package test
 import (
 	"bytes"
 	"fmt"
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
+	"github.com/bketelsen/buildingapis/workshop/service/app"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/goatest"
 	"golang.org/x/net/context"

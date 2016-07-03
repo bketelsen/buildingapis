@@ -3,8 +3,8 @@ package main
 import (
 	"strconv"
 
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
 	"github.com/bketelsen/buildingapis/exercises/library"
+	"github.com/bketelsen/buildingapis/workshop/service/app"
 	"github.com/goadesign/goa"
 )
 

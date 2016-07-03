@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/bketelsen/buildingapis/exercises/20-goa/solution/app"
 	"github.com/bketelsen/buildingapis/exercises/library"
+	"github.com/bketelsen/buildingapis/workshop/service/app"
 	jwtgo "github.com/dgrijalva/jwt-go"
 	"github.com/goadesign/goa"
 	"github.com/goadesign/goa/middleware/security/jwt"

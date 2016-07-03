@@ -13,23 +13,15 @@
   - Routing
   - Error Handling
   - Encoding/Decoding + MIME
-8. 10:25-10:45 Build a REST server in Go using 100% stdlib - Brian
-  - Error handling
-  - Testing ....
+8. 10:25-10:45 Build a REST server in Go using 100% stdlib - Error handling Testing .... - Brian
 
 9. 10:45-11:00 **BREAK**
 
-10. 11:00-11:15 Middleware as a concept - Brian
-  - Build sample middleware for logging request headers (e.g.)
+10. 11:00-11:15 Middleware as a concept, Build sample middleware for logging request headers (e.g.) - Brian
 11. 11:15-11:25 Alternative Muxers - Brian
 12. 11:25-11:35 Middleware packages (Alice) - Brian
 13. 11:35-11:45 Authorization - Raphael *(DONE)*
-  - Basic Auth, Shared secrets, JWT, OAuth2
-  - Add basic auth to sample
 14. 11:45-11:50 Security - Raphael *(DONE)*
-  - CSRF
-  - XSS
-  - SQL injection
 
 15. 12:00-13:00 **LUNCH**
 
@@ -39,24 +31,14 @@
 20. 13:35-13:45 DIY codegen, goa, go-swagger - Brian
 21. 13:45-14:10 (re)build app using goa - Raphael/Together
 22. 14:10-14:25 Running APIs in production - Brian
-  - Logging! (principles)
-  - Metrics
-  - Tracing
-23. 14:25-14:40 Add logging/metric data to API built with goa - Raphael/Together
+23. 14:25-14:40 Add logging/metric data to API built with goa - Brian/Together
 
 24. 14:40-15:00 **BREAK**
 
-25. 15:05-15:15 Load Balancing w/ nginx - Brian
-  - Show nginx config for app
+25. 15:05-15:15 Load Balancing w/ nginx, show nginx config for goworkshop - Brian
 26. 15:15-15:25 Backplane LBs - Brian
-27. 15:25-15:40 Running in containers - Brian
-  - Logging (docker logs, syslog)
-  - Monitoring (collectd, 
-28. 15:40-16:05 "Dockerize" app built in previous steps - Brian/Together
-  - With logging
-  - And nginx
-29. 16:05-16:20 Microservices - Raphael
-  - What are they?
-  - Why and why not?
+27. 15:25-15:40 Running in containers -> Logging (docker logs, syslog), Monitoring (collectd) ... - Brian
+28. 15:40-16:05 "Dockerize" app built in previous steps with logging and nginx - Brian/Together
+29. 16:05-16:20 Microservices, What are they?  Why and why not? - Raphael
 30. 16:20-16:35 Advanced topics: Vagrant flux - linkerd - Raphael
 31. 16:35-17:00 Open Q&A - Together
