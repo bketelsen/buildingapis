@@ -5,7 +5,6 @@
 * [Gin](https://github.com/gin-gonic/gin)
 * [Echo](https://github.com/labstack/echo)
 * [Goji](https://github.com/goji/goji)
-* [goa](https://github.com/goadesign/goa)
 
 Endpoints are:
 
