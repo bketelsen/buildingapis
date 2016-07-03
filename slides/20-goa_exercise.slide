@@ -1,4 +1,4 @@
-Frameworks Exercise
+goa Exercise
 Building APIs in Go
 10 Jul 2016
 
@@ -8,9 +8,7 @@ bketelsen@goa.design
 raphael@goa.design
 @rgsimon
 
-* Let's Implement the GoWorkshop Service
-
-Pick one: Gin, Echo, Goji or goa
+* Let's Implement the GoWorkshop Service using goa
 
 Implement the API we previously designed in Swagger
 
