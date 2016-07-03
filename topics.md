@@ -8,7 +8,7 @@
 4. 9:35-9:50 REST Design consideration - Raphael *(DONE)*
 5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(DONE)*
 6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(DONE)*
-7. 10:15-10:25 HTTP Go server (brief) - Brian
+7. 10:15-10:25 HTTP Go server (brief) - Brian *(DONE)*
   - HTTP server "architecture" one goroutine per request, request flow
   - Routing
   - Error Handling
