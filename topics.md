@@ -39,6 +39,6 @@
 26. 15:15-15:25 Backplane LBs - Brian
 27. 15:25-15:40 Running in containers -> Logging (docker logs, syslog), Monitoring (collectd) ... - Brian
 28. 15:40-16:05 "Dockerize" app built in previous steps with logging and nginx - Brian/Together
-29. 16:05-16:20 Microservices, What are they?  Why and why not? - Raphael
-30. 16:20-16:35 Advanced topics: Vagrant flux - linkerd - Raphael
-31. 16:35-17:00 Open Q&A - Together
+29. 16:05-16:15 Microservices, What are they?  Why and why not? - Raphael
+30. 16:15-16:30 Advanced topics: Vagrant flux - linkerd - Raphael
+31. 16:30-17:00 Open Q&A / Review of full workshop service - Together
