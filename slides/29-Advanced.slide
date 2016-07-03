@@ -10,12 +10,14 @@ raphael@goa.design
 
 * API Gateways
 
+* API Gateways
+
 Serve as a frontend to APIs. Can take care of:
 
 - Authorization
 - Access control
 - Request throtlling
-- Traffic management (e.g. Blue/green deployment model)
+- Traffic management (e.g. blue/green deployment model)
 - Monitoring
 
 * API Gateway Examples
@@ -24,6 +26,8 @@ Serve as a frontend to APIs. Can take care of:
 - tyk - https://tyk.io - Go, open source MPLv2 license.
 - kong - https://github.com/Mashape/kong - nginx + lua, open source Apache v2 license.
 - linkerd - https://linkerd.io - integrates service discovery, more focus on microservices.
+
+* PaaS / "Serverless"
 
 * PaaS / "Serverless"
 

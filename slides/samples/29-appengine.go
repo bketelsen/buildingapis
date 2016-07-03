@@ -11,7 +11,7 @@ import (
 	"github.com/inconshreveable/log15"
 )
 
-func init() {
+func init() { // HL
 	goa.Log.SetHandler(log15.StreamHandler(os.Stderr, log15.LogfmtFormat())) // HL
 
 	service := goa.New("cellar")
