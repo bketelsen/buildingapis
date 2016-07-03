@@ -9,4 +9,4 @@ raphael@goa.design
 @rgsimon
 
 * Build a REST Server in Go
-
+Now we'll build an API server in Go using only the standard library.

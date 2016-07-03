@@ -8,11 +8,7 @@
 4. 9:35-9:50 REST Design consideration - Raphael *(DONE)*
 5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(DONE)*
 6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(DONE)*
-7. 10:15-10:25 HTTP Go server (brief) - Brian *(DONE)*
-  - HTTP server "architecture" one goroutine per request, request flow
-  - Routing
-  - Error Handling
-  - Encoding/Decoding + MIME
+7. 10:15-10:25 HTTP Go server (brief) - Brian
 8. 10:25-10:45 Build a REST server in Go using 100% stdlib - Error handling Testing .... - Brian
 
 9. 10:45-11:00 **BREAK**
@@ -28,17 +24,17 @@
 16. 13:00-13:05 Frameworks - Raphael *(DONE)*
 17. 13:05-13:25 Replicate API built in step 6 in any of the above framework - ?/Together
 18. 13:25-13:35 Codegen - why? - Brian
-20. 13:35-13:45 DIY codegen, goa, go-swagger - Brian
-21. 13:45-14:10 (re)build app using goa - Raphael/Together
-22. 14:10-14:25 Running APIs in production - Brian
-23. 14:25-14:40 Add logging/metric data to API built with goa - Brian/Together
+19. 13:35-13:45 DIY codegen, goa, go-swagger - Brian
+20. 13:45-14:10 (re)build app using goa - Raphael/Together *(DONE)*
+21. 14:10-14:25 Running APIs in production - Brian
+22. 14:25-14:40 Add logging/metric data to API built with goa - Brian/Together
 
-24. 14:40-15:00 **BREAK**
+23. 14:40-15:00 **BREAK**
 
-25. 15:05-15:15 Load Balancing w/ nginx, show nginx config for goworkshop - Brian
-26. 15:15-15:25 Backplane LBs - Brian
-27. 15:25-15:40 Running in containers -> Logging (docker logs, syslog), Monitoring (collectd) ... - Brian
-28. 15:40-16:05 "Dockerize" app built in previous steps with logging and nginx - Brian/Together
-29. 16:05-16:20 Microservices, What are they?  Why and why not? - Raphael
-30. 16:20-16:35 Advanced topics: Vagrant flux - linkerd - Raphael
-31. 16:35-17:00 Open Q&A - Together
+24. 15:05-15:15 Load Balancing w/ nginx, show nginx config for goworkshop - Brian
+25. 15:15-15:25 Backplane LBs - Brian
+26. 15:25-15:40 Running in containers -> Logging (docker logs, syslog), Monitoring (collectd) ... - Brian
+27. 15:40-16:05 "Dockerize" app built in previous steps with logging and nginx - Brian/Together
+28. 16:05-16:15 Microservices, What are they?  Why and why not? - Raphael *(DONE)*
+29. 16:15-16:30 Advanced topics: Vagrant flux - linkerd - Raphael
+30. 16:30-17:00 Open Q&A / Review of full workshop service - Together *(DONE)*
