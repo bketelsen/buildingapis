@@ -95,10 +95,9 @@ func courses(w http.ResponseWriter, r *http.Request) {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
 					return
-				} else {
-					jsonError(w, err.Error(), http.StatusInternalServerError)
-					return
 				}
+				jsonError(w, err.Error(), http.StatusInternalServerError)
+				return
 			}
 			courselist := courselistToCourseSlice(cc)
 			w.Header().Set("Content-Type", "application/json")
@@ -112,10 +111,9 @@ func courses(w http.ResponseWriter, r *http.Request) {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
 					return
-				} else {
-					jsonError(w, err.Error(), http.StatusInternalServerError)
-					return
 				}
+				jsonError(w, err.Error(), http.StatusInternalServerError)
+				return
 			}
 			course := courseToCourse(c)
 			w.Header().Set("Content-Type", "application/json")
@@ -166,10 +164,9 @@ func registrations(w http.ResponseWriter, r *http.Request) {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
 					return
-				} else {
-					jsonError(w, err.Error(), http.StatusInternalServerError)
-					return
 				}
+				jsonError(w, err.Error(), http.StatusInternalServerError)
+				return
 			}
 			reglist := reglistToRegistrationSlice(cc)
 			w.Header().Set("Content-Type", "application/json")
@@ -183,10 +180,9 @@ func registrations(w http.ResponseWriter, r *http.Request) {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
 					return
-				} else {
-					jsonError(w, err.Error(), http.StatusInternalServerError)
-					return
 				}
+				jsonError(w, err.Error(), http.StatusInternalServerError)
+				return
 			}
 			reg := regToRegistration(c)
 			w.Header().Set("Content-Type", "application/json")
