@@ -20,6 +20,8 @@ const (
 	registrationBase = "/api/registrations/"
 )
 
+// ErrBadPath is the error returned when the request
+// path isn't valid.
 var ErrBadPath = errors.New("Bad Request Path")
 
 // Address is a street address
@@ -54,6 +56,8 @@ type Course struct {
 // Registration is the record of someone signing up to take a course
 type Registration struct {
 	ID int `json:id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
+
+	CourseID int `json:course_id,omitempty" xml:"course_id,omitempty" form:"course_id,omitempty"`
 	// Attendee address
 	Address *Address `json:"address,omitempty" xml:"address,omitempty" form:"address,omitempty"`
 	// The href to the course resource that describes the course being taught
@@ -69,7 +73,7 @@ func main() {
 
 	http.HandleFunc(courseBase, courses)
 	http.HandleFunc(registrationBase, registrations)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8081", nil))
 }
 
 func courses(w http.ResponseWriter, r *http.Request) {
@@ -144,6 +148,73 @@ func courses(w http.ResponseWriter, r *http.Request) {
 
 func registrations(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Add("Allow", "OPTIONS,GET,POST")
+	if r.Method == "OPTIONS" {
+		return
+	}
+	switch r.Method {
+	case "GET":
+		//	get registration or registrations
+		id, err := idOrList(registrationBase, r.URL.Path)
+		if err != nil {
+			jsonError(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		if id == "" {
+			cc, err := db.List("registrations", "id", nil)
+			if err != nil {
+				if err == library.ErrNotFound {
+					jsonError(w, "Not Found", http.StatusNotFound)
+					return
+				} else {
+					jsonError(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			}
+			reglist := reglistToRegistrationSlice(cc)
+			w.Header().Set("Content-Type", "application/json")
+			if err := json.NewEncoder(w).Encode(reglist); err != nil {
+				log.Println("Encode:", err)
+				return
+			}
+		} else {
+			c, err := db.Get("registrations", "id", id)
+			if err != nil {
+				if err == library.ErrNotFound {
+					jsonError(w, "Not Found", http.StatusNotFound)
+					return
+				} else {
+					jsonError(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			}
+			reg := regToRegistration(c)
+			w.Header().Set("Content-Type", "application/json")
+			if err := json.NewEncoder(w).Encode(reg); err != nil {
+				log.Println("Encode:", err)
+				return
+			}
+		}
+
+	case "POST":
+		var course Course
+		if err := json.NewDecoder(r.Body).Decode(&course); err != nil {
+			jsonError(w, "Invalid JSON", 400)
+			return
+		}
+
+		// save it
+		//c := saveAndGetCourse()
+		var c Course
+
+		err := json.NewEncoder(w).Encode(c)
+		if err != nil {
+			log.Println("serveEndpoint: POST: Encode:", err)
+		}
+	default:
+		w.Header().Set("Allow", "GET,POST")
+		jsonError(w, "Method Not Allowed", 405)
+	}
 }
 
 func jsonError(w http.ResponseWriter, msg string, code int) {
@@ -200,6 +271,32 @@ func courseToCourse(i interface{}) *Course {
 	return mt
 }
 
+func regToRegistration(i interface{}) *Registration {
+	m := i.(*library.RegistrationModel)
+	id, err := strconv.Atoi(m.ID)
+	if err != nil {
+		panic("invalid Registration ID - must be an int") // bug
+	}
+	courseID, err := strconv.Atoi(m.CourseID)
+	if err != nil {
+		panic("invalid Course ID - must be an int") // bug
+	}
+	mt := &Registration{
+		ID:        id,
+		FirstName: &m.FirstName,
+		LastName:  &m.LastName,
+		CourseID:  courseID,
+		Address: &Address{
+			Number: m.Address.Number,
+			Street: m.Address.Street,
+			City:   m.Address.City,
+			State:  m.Address.State,
+			Zip:    m.Address.Zip,
+		},
+	}
+	return mt
+}
+
 func courselistToCourseSlice(i []interface{}) []*Course {
 	cc := make([]*Course, len(i))
 	for x, course := range i {
@@ -218,6 +315,37 @@ func courselistToCourseSlice(i []interface{}) []*Course {
 		if m.Description != "" {
 			mt.Description = &m.Description
 		}
+		cc[x] = mt
+	}
+	return cc
+}
+func reglistToRegistrationSlice(i []interface{}) []*Registration {
+	cc := make([]*Registration, len(i))
+	for x, reg := range i {
+		m := reg.(*library.RegistrationModel)
+		id, err := strconv.Atoi(m.ID)
+		if err != nil {
+			panic("invalid Registration ID - must be an int") // bug
+		}
+
+		courseID, err := strconv.Atoi(m.CourseID)
+		if err != nil {
+			panic("invalid Course ID - must be an int") // bug
+		}
+		mt := &Registration{
+			ID:        id,
+			FirstName: &m.FirstName,
+			LastName:  &m.LastName,
+			CourseID:  courseID,
+			Address: &Address{
+				Number: m.Address.Number,
+				Street: m.Address.Street,
+				City:   m.Address.City,
+				State:  m.Address.State,
+				Zip:    m.Address.Zip,
+			},
+		}
+
 		cc[x] = mt
 	}
 	return cc
