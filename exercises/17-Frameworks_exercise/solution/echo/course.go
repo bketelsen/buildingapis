@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/bketelsen/buildingapis/exercises/library"
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo"
 )
 
 type coursePayload struct {
@@ -28,13 +28,12 @@ type courseMedia struct {
 	Location    string    `json:"location" xml:"location" form:"location"`
 }
 
-func createCourse(db *library.MemDB) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func createCourse(db *library.MemDB) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		var payload coursePayload
-		err := c.BindJSON(&payload)
+		err := c.Bind(&payload)
 		if err != nil {
-			respondBadRequest(c, "invalid request body: %s", err)
-			return
+			return respondBadRequest(c, "invalid request body: %s", err)
 		}
 		var desc string
 		if payload.Description != nil {
@@ -49,42 +48,37 @@ func createCourse(db *library.MemDB) gin.HandlerFunc {
 			Location:    payload.Location,
 		}
 		if err := db.Insert("courses", model); err != nil {
-			respondInternal(c, "failed to insert course: %s", err)
-			return
+			return fmt.Errorf("failed to insert course: %s", err)
 		}
-		c.Header("Location", fmt.Sprintf("/courses/%s", model.ID))
-		c.JSON(http.StatusCreated, courseToMedia(model))
+		c.Response().Header().Set("Location", fmt.Sprintf("/courses/%s", model.ID))
+		return c.JSON(http.StatusCreated, courseToMedia(model))
 	}
 }
 
-func showCourse(db *library.MemDB) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func showCourse(db *library.MemDB) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		id := c.Param("id")
 		im, err := db.Get("courses", "id", id)
 		if err != nil && err != library.ErrNotFound {
-			respondInternal(c, "failed to query course: %s", err)
-			return
+			return fmt.Errorf("failed to query course: %s", err)
 		}
 		if im == nil {
-			respondNotFound(c)
-			return
+			return respondNotFound(c)
 		}
-		c.JSON(http.StatusOK, courseToMedia(im.(*library.CourseModel)))
+		return c.JSON(http.StatusOK, courseToMedia(im.(*library.CourseModel)))
 	}
 }
 
-func deleteCourse(db *library.MemDB) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func deleteCourse(db *library.MemDB) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		id := c.Param("id")
 		if err := db.Delete("courses", "id", id); err != nil {
 			if err == library.ErrNotFound {
-				respondNotFound(c)
-				return
+				return respondNotFound(c)
 			}
-			respondInternal(c, "failed to delete course: %s", err)
-			return
+			return fmt.Errorf("failed to delete course: %s", err)
 		}
-		c.Status(http.StatusNoContent)
+		return c.NoContent(http.StatusNoContent)
 	}
 }
 

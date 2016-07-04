@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/bketelsen/buildingapis/exercises/library"
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo"
 )
 
 // Address is a street address
@@ -35,13 +35,12 @@ type registrationMedia struct {
 	Address   *address `json:"address" xml:"address" form:"address"`
 }
 
-func createRegistration(db *library.MemDB) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func createRegistration(db *library.MemDB) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		var payload registrationPayload
-		err := c.BindJSON(&payload)
+		err := c.Bind(&payload)
 		if err != nil {
-			respondBadRequest(c, "invalid request body: %s", err)
-			return
+			return respondBadRequest(c, "invalid request body: %s", err)
 		}
 		model := &library.RegistrationModel{
 			ID:        library.NewID(),
@@ -51,46 +50,41 @@ func createRegistration(db *library.MemDB) gin.HandlerFunc {
 			Address:   addressFromPayload(payload.Address),
 		}
 		if err := db.Insert("registrations", model); err != nil {
-			respondInternal(c, "failed to insert registration: %s", err)
-			return
+			return fmt.Errorf("failed to insert registration: %s", err)
 		}
-		c.Header("Location", fmt.Sprintf("/registrations/%s", model.ID))
-		c.JSON(http.StatusCreated, registrationToMedia(model))
+		c.Response().Header().Set("Location", fmt.Sprintf("/registrations/%s", model.ID))
+		return c.JSON(http.StatusCreated, registrationToMedia(model))
 	}
 }
 
-func showRegistration(db *library.MemDB) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func showRegistration(db *library.MemDB) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		id := c.Param("id")
 		im, err := db.Get("registrations", "id", id)
 		if err != nil && err != library.ErrNotFound {
-			respondInternal(c, "failed to query registration: %s", err)
-			return
+			return fmt.Errorf("failed to query registration: %s", err)
 		}
 		if im == nil {
-			respondNotFound(c)
-			return
+			return respondNotFound(c)
 		}
-		c.JSON(http.StatusOK, registrationToMedia(im.(*library.RegistrationModel)))
+		return c.JSON(http.StatusOK, registrationToMedia(im.(*library.RegistrationModel)))
 	}
 }
 
-func listRegistrations(db *library.MemDB) gin.HandlerFunc {
-	return func(c *gin.Context) {
+func listRegistrations(db *library.MemDB) echo.HandlerFunc {
+	return func(c echo.Context) error {
 		im, err := db.List("registrations", "id", nil)
 		if err != nil && err != library.ErrNotFound {
-			respondInternal(c, "failed to query registrations: %s", err)
-			return
+			return fmt.Errorf("failed to query registrations: %s", err)
 		}
 		if im == nil {
-			respondNotFound(c)
-			return
+			return respondNotFound(c)
 		}
 		med := make([]*registrationMedia, len(im))
 		for i, m := range im {
 			med[i] = registrationToMedia(m.(*library.RegistrationModel))
 		}
-		c.JSON(http.StatusOK, med)
+		return c.JSON(http.StatusOK, med)
 	}
 }
 
