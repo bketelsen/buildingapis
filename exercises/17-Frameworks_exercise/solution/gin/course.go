@@ -1,18 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
-	"goji.io"
-	"goji.io/pat"
-
 	"github.com/bketelsen/buildingapis/exercises/library"
-
-	"golang.org/x/net/context"
+	"github.com/gin-gonic/gin"
 )
 
 type coursePayload struct {
@@ -33,12 +28,12 @@ type courseMedia struct {
 	Location    string    `json:"location" xml:"location" form:"location"`
 }
 
-func createCourse(db *library.MemDB) goji.HandlerFunc {
-	return func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+func createCourse(db *library.MemDB) gin.HandlerFunc {
+	return func(c *gin.Context) {
 		var payload coursePayload
-		err := json.NewDecoder(r.Body).Decode(&payload)
+		err := c.BindJSON(&payload)
 		if err != nil {
-			respondBadRequest(w, "invalid request body: %s", err)
+			respondBadRequest(c, "invalid request body: %s", err)
 			return
 		}
 		var desc string
@@ -54,52 +49,42 @@ func createCourse(db *library.MemDB) goji.HandlerFunc {
 			Location:    payload.Location,
 		}
 		if err := db.Insert("courses", model); err != nil {
-			respondInternal(w, "failed to insert course: %s", err)
+			respondInternal(c, "failed to insert course: %s", err)
 			return
 		}
-		w.Header().Set("Location", fmt.Sprintf("/courses/%d", model.ID))
-		w.WriteHeader(http.StatusCreated)
-		err = json.NewEncoder(w).Encode(courseToMedia(model))
-		if err != nil {
-			respondInternal(w, "failed to write response: %s", err)
-			return
-		}
+		c.Header("Location", fmt.Sprintf("/courses/%d", model.ID))
+		c.JSON(http.StatusCreated, courseToMedia(model))
 	}
 }
 
-func showCourse(db *library.MemDB) goji.HandlerFunc {
-	return func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-		id := pat.Param(ctx, "id")
+func showCourse(db *library.MemDB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
 		im, err := db.Get("courses", "id", id)
 		if err != nil && err != library.ErrNotFound {
-			respondInternal(w, "failed to query course: %s", err)
+			respondInternal(c, "failed to query course: %s", err)
 			return
 		}
 		if im == nil {
-			respondNotFound(w)
+			respondNotFound(c)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
-		err = json.NewEncoder(w).Encode(courseToMedia(im.(*library.CourseModel)))
-		if err != nil {
-			respondInternal(w, "failed to write response: %s", err)
-			return
-		}
+		c.JSON(http.StatusOK, courseToMedia(im.(*library.CourseModel)))
 	}
 }
 
-func deleteCourse(db *library.MemDB) goji.HandlerFunc {
-	return func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-		id := pat.Param(ctx, "id")
+func deleteCourse(db *library.MemDB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
 		if err := db.Delete("courses", "id", id); err != nil {
 			if err == library.ErrNotFound {
-				respondNotFound(w)
+				respondNotFound(c)
 				return
 			}
-			respondInternal(w, "failed to delete course: %s", err)
+			respondInternal(c, "failed to delete course: %s", err)
 			return
 		}
-		w.WriteHeader(http.StatusNoContent)
+		c.Status(http.StatusNoContent)
 	}
 }
 

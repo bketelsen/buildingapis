@@ -6,10 +6,8 @@ import (
 	"os"
 
 	"github.com/bketelsen/buildingapis/exercises/library"
+	"github.com/gin-gonic/gin"
 	"github.com/inconshreveable/log15"
-
-	"goji.io"
-	"goji.io/pat"
 )
 
 func main() {
@@ -20,43 +18,41 @@ func main() {
 	logger := log15.New()
 	logger.SetHandler(log15.StreamHandler(os.Stderr, log15.TerminalFormat()))
 
-	mux := goji.NewMux()
-	mux.UseC(requestIDMiddleware())
-	mux.UseC(loggerMiddleware(logger))
+	r := gin.Default()
+	r.Use(requestIDMiddleware())
+	r.Use(loggerMiddleware(logger))
 
 	db := library.NewDB()
 
-	mux.HandleFuncC(pat.Post("/courses"), createCourse(db))
-	mux.HandleFuncC(pat.Get("/courses/:id"), showCourse(db))
-	mux.HandleFuncC(pat.Delete("/courses/:id"), deleteCourse(db))
+	r.POST("/courses", createCourse(db))
+	r.GET("/courses/:id", showCourse(db))
+	r.DELETE("/courses/:id", deleteCourse(db))
 
-	mux.HandleFuncC(pat.Post("/registrations"), createRegistration(db))
-	mux.HandleFuncC(pat.Get("/registrations/:id"), showRegistration(db))
-	mux.HandleFuncC(pat.Get("/registrations"), listRegistrations(db))
+	r.POST("/registrations", createRegistration(db))
+	r.GET("/registrations/:id", showRegistration(db))
+	r.GET("/registrations", listRegistrations(db))
 
 	logger.Info("ready", "host", host)
-	http.ListenAndServe(host, mux)
+	r.Run(host)
 }
 
 // respondBadRequest writes a response with status 400 and the body built with the given format
 // and values (a la fmt).
-func respondBadRequest(w http.ResponseWriter, format string, vals ...interface{}) {
+func respondBadRequest(c *gin.Context, format string, vals ...interface{}) {
 	// NOTE: this would need to be sanitized or entirely removed before running in production.
 	body := fmt.Sprintf(format, vals...)
-	w.WriteHeader(http.StatusBadRequest)
-	w.Write([]byte(body))
+	c.String(http.StatusBadRequest, body)
 }
 
 // respondInternal writes a response with status 500 and the body built with the given format and
 // values (a la fmt).
-func respondInternal(w http.ResponseWriter, format string, vals ...interface{}) {
+func respondInternal(c *gin.Context, format string, vals ...interface{}) {
 	// NOTE: this would need to be sanitized or entirely removed before running in production.
 	body := fmt.Sprintf(format, vals...)
-	w.WriteHeader(http.StatusInternalServerError)
-	w.Write([]byte(body))
+	c.String(http.StatusInternalServerError, body)
 }
 
 // respondNotFound writes a response with status 404.
-func respondNotFound(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusNotFound)
+func respondNotFound(c *gin.Context) {
+	c.Status(http.StatusNotFound)
 }

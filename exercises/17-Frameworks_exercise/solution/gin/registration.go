@@ -1,19 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
 
-	"goji.io/pat"
-
-	"goji.io"
-
 	"github.com/bketelsen/buildingapis/exercises/library"
-
-	"golang.org/x/net/context"
+	"github.com/gin-gonic/gin"
 )
 
 // Address is a street address
@@ -41,12 +35,12 @@ type registrationMedia struct {
 	Address   *address `json:"address" xml:"address" form:"address"`
 }
 
-func createRegistration(db *library.MemDB) goji.HandlerFunc {
-	return func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+func createRegistration(db *library.MemDB) gin.HandlerFunc {
+	return func(c *gin.Context) {
 		var payload registrationPayload
-		err := json.NewDecoder(r.Body).Decode(&payload)
+		err := c.BindJSON(&payload)
 		if err != nil {
-			respondBadRequest(w, "invalid request body: %s", err)
+			respondBadRequest(c, "invalid request body: %s", err)
 			return
 		}
 		model := &library.RegistrationModel{
@@ -57,61 +51,46 @@ func createRegistration(db *library.MemDB) goji.HandlerFunc {
 			Address:   addressFromPayload(payload.Address),
 		}
 		if err := db.Insert("registrations", model); err != nil {
-			respondInternal(w, "failed to insert registration: %s", err)
+			respondInternal(c, "failed to insert registration: %s", err)
 			return
 		}
-		w.Header().Set("Location", fmt.Sprintf("/registrations/%d", model.ID))
-		w.WriteHeader(http.StatusCreated)
-		err = json.NewEncoder(w).Encode(registrationToMedia(model))
-		if err != nil {
-			respondInternal(w, "failed to write response: %s", err)
-			return
-		}
+		c.Header("Location", fmt.Sprintf("/registrations/%d", model.ID))
+		c.JSON(http.StatusCreated, registrationToMedia(model))
 	}
 }
 
-func showRegistration(db *library.MemDB) goji.HandlerFunc {
-	return func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
-		id := pat.Param(ctx, "id")
+func showRegistration(db *library.MemDB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
 		im, err := db.Get("registrations", "id", id)
 		if err != nil && err != library.ErrNotFound {
-			respondInternal(w, "failed to query registration: %s", err)
+			respondInternal(c, "failed to query registration: %s", err)
 			return
 		}
 		if im == nil {
-			respondNotFound(w)
+			respondNotFound(c)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
-		err = json.NewEncoder(w).Encode(registrationToMedia(im.(*library.RegistrationModel)))
-		if err != nil {
-			respondInternal(w, "failed to write response: %s", err)
-			return
-		}
+		c.JSON(http.StatusOK, registrationToMedia(im.(*library.RegistrationModel)))
 	}
 }
 
-func listRegistrations(db *library.MemDB) goji.HandlerFunc {
-	return func(ctx context.Context, w http.ResponseWriter, r *http.Request) {
+func listRegistrations(db *library.MemDB) gin.HandlerFunc {
+	return func(c *gin.Context) {
 		im, err := db.List("registrations", "id", nil)
 		if err != nil && err != library.ErrNotFound {
-			respondInternal(w, "failed to query registrations: %s", err)
+			respondInternal(c, "failed to query registrations: %s", err)
 			return
 		}
 		if im == nil {
-			respondNotFound(w)
+			respondNotFound(c)
 			return
 		}
 		med := make([]*registrationMedia, len(im))
 		for i, m := range im {
 			med[i] = registrationToMedia(m.(*library.RegistrationModel))
 		}
-		w.WriteHeader(http.StatusOK)
-		err = json.NewEncoder(w).Encode(med)
-		if err != nil {
-			respondInternal(w, "failed to write response: %s", err)
-			return
-		}
+		c.JSON(http.StatusOK, med)
 	}
 }
 
