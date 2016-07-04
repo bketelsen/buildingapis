@@ -296,21 +296,7 @@ func regToRegistration(i interface{}) *Registration {
 func courselistToCourseSlice(i []interface{}) []*Course {
 	cc := make([]*Course, len(i))
 	for x, course := range i {
-		m := course.(*library.CourseModel)
-		id, err := strconv.Atoi(m.ID)
-		if err != nil {
-			panic("invalid course ID - must be an int") // bug
-		}
-		mt := &Course{
-			ID:        id,
-			Name:      m.Name,
-			Location:  m.Location,
-			StartTime: m.StartTime,
-			EndTime:   m.EndTime,
-		}
-		if m.Description != "" {
-			mt.Description = &m.Description
-		}
+		mt := courseToCourse(course)
 		cc[x] = mt
 	}
 	return cc
@@ -318,30 +304,7 @@ func courselistToCourseSlice(i []interface{}) []*Course {
 func reglistToRegistrationSlice(i []interface{}) []*Registration {
 	cc := make([]*Registration, len(i))
 	for x, reg := range i {
-		m := reg.(*library.RegistrationModel)
-		id, err := strconv.Atoi(m.ID)
-		if err != nil {
-			panic("invalid Registration ID - must be an int") // bug
-		}
-
-		courseID, err := strconv.Atoi(m.CourseID)
-		if err != nil {
-			panic("invalid Course ID - must be an int") // bug
-		}
-		mt := &Registration{
-			ID:        id,
-			FirstName: &m.FirstName,
-			LastName:  &m.LastName,
-			CourseID:  courseID,
-			Address: &Address{
-				Number: m.Address.Number,
-				Street: m.Address.Street,
-				City:   m.Address.City,
-				State:  m.Address.State,
-				Zip:    m.Address.Zip,
-			},
-		}
-
+		mt := regToRegistration(reg)
 		cc[x] = mt
 	}
 	return cc
