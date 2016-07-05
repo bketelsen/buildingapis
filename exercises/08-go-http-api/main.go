@@ -230,6 +230,12 @@ func jsonError(w http.ResponseWriter, msg string, code int) {
 // an empty string if none.  It returns an error if the
 // Requsted URL doesn't match the expected pattern
 func idOrList(base, path string) (string, error) {
+	// go's mux will send /api/courses and /api/courses/
+	// to the same handler if the trailing slash is registered as the
+	// path.  Special case that here.
+	if path+"/" == base {
+		path = path + "/"
+	}
 	remains := strings.Replace(path, base, "", -1)
 	if strings.HasPrefix(remains, "/") {
 		remains = remains[1:]

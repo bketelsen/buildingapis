@@ -10,3 +10,5 @@ raphael@goa.design
 
 * Build a REST Server in Go
 Now we'll build an API server in Go using only the standard library.
+
+Code for this exercise is in `/exercises/08-go-http-api`.
