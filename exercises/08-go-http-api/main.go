@@ -40,7 +40,7 @@ type Address struct {
 
 // Course is a class that can be taken
 type Course struct {
-	ID int `json:id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
+	ID int `json:"id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
 	// Course description
 	Description *string `json:"description,omitempty" xml:"description,omitempty" form:"description,omitempty"`
 	// Course end date/time
@@ -55,9 +55,10 @@ type Course struct {
 
 // Registration is the record of someone signing up to take a course
 type Registration struct {
-	ID int `json:id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
-
-	CourseID int `json:course_id,omitempty" xml:"course_id,omitempty" form:"course_id,omitempty"`
+	// ID of registration
+	ID int `json:"id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
+	// CourseID of registered course
+	CourseID int `json:"course_id,omitempty" xml:"course_id,omitempty" form:"course_id,omitempty"`
 	// Attendee address
 	Address *Address `json:"address,omitempty" xml:"address,omitempty" form:"address,omitempty"`
 	// The href to the course resource that describes the course being taught
