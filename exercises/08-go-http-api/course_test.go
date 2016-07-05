@@ -29,7 +29,7 @@ func TestGetOneCourse(t *testing.T) {
 		t.Fatalf("Received non-200 response: %d\n", resp.StatusCode)
 	}
 	defer resp.Body.Close()
-	// this is the hard way
+
 	got := new(Course)
 	if err = json.NewDecoder(resp.Body).Decode(got); err != nil {
 		t.Error(err.Error())
@@ -50,6 +50,35 @@ func TestGetOneCourse(t *testing.T) {
 	}
 }
 
+func TestGetOneCourseNotFound(t *testing.T) {
+	// register the handler function with the httptest Server
+	ts := httptest.NewServer(http.HandlerFunc(courses))
+	defer ts.Close()
+
+	// make a request
+	resp, err := http.Get(ts.URL + "/api/courses/30")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if resp.StatusCode != 404 {
+		t.Fatalf("Received %d response, expected  %d\n", resp.StatusCode, http.StatusNotFound)
+	}
+	defer resp.Body.Close()
+	// this is the hard way
+	var got map[string]interface{}
+	if err = json.NewDecoder(resp.Body).Decode(&got); err != nil {
+		t.Error(err.Error())
+	}
+	var msg interface{}
+	var ok bool
+	if msg, ok = got["Message"]; !ok {
+		t.Error("expected a message key in response json")
+	}
+	if msg.(string) != "Not Found" {
+		t.Error("Expected not found message")
+	}
+
+}
 func TestGetCourses(t *testing.T) {
 	// register the handler function with the httptest Server
 	ts := httptest.NewServer(http.HandlerFunc(courses))
