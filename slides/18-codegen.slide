@@ -1,0 +1,57 @@
+Code Generation
+Building APIs in Go
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* Code Generation
+
+If you write an API long enough you realize that there is *just*enough* repetition to drive you crazy, but not enough to abstract into a more reusable function.
+
+That's enough to frustrate anyone.  But we're engineers!  When we find a problem like this we build tools to solve them.
+
+* Go and Code Generation
+
+Writing code generation tools in Go is a pleasure.
+
+- Great text/template package
+- static binaries for easy distribution
+- fast compile times
+- reflection if you need it
+
+* Code Generation Methodology
+
+- Recognize a pattern
+- Abstract the design out of the pattern
+- Create a template
+- Create a data source (what fills your template?)
+- Build a generator that applies your template to the data source
+
+* Example Code Generators
+
+- https://github.com/bketelsen/genkit (from struct annotations)
+- https://bitbucket.org/seanerussell/sashay (from swagger)
+- https://github.com/go-swagger/go-swagger (from swagger)
+- https://github.com/maxzerbini/dingo (from sql schema)
+- https://github.com/kelseyhightower/confd (from etcd)
+- https://github.com/goadesign/goa (from code dsl)
+
+
+* Rules of Code Generation
+
+- Never talk about code generation  :)
+- Use interfaces as extension points so that your users can implement the business functionality in a separate package or file. 
+- Be explicit about what's generated and what will be destroyed in regeneration
+- Don't iterate over maps.  Map iteration is random, and it will generate noisy diffs in your generated code.
+
+* Conclusion
+
+Code Generation removes the repetition out of doing an API.  Go makes it easy.  
+
+Even if you don't like the code generators you've seen here you owe it to yourself to try code generation for repetitive tasks.  You'll thank us later, I promise.
+
+.image images/gatt.jpg

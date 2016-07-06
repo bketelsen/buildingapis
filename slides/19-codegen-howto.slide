@@ -1,0 +1,38 @@
+Code Generation
+Building APIs in Go
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* Code Generation HOWTO
+
+- Decide what your data source is
+	Comments (annotations) in code
+	Struct Tags
+	Database Schema
+	YAML File
+	JSON File
+	DSL
+
+- Build something to read the data source and populate metadata structure(s)
+- Build something to iterate over the metadata and apply a template
+- Write templates
+
+* Data Source
+
+This depends entirely on what you're building.  
+
+- Already have Go types?
+	Annotations,  Struct Tags
+
+- Already have a database?
+	Database Schema
+
+- Greenfield development?
+	DSL
+	YAML/JSON
+

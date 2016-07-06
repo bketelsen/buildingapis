@@ -1,0 +1,15 @@
+Exercise
+Building APIs in Go
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* Make an API
+
+Pick any of the frameworks we've discussed and replicate the api using that framework.
+
+Solutions are in the /exercises/17-Frameworks_exercise folder if you get stuck.
