@@ -8,8 +8,8 @@
 4. 9:35-9:50 REST Design consideration - Raphael *(DONE)*
 5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(DONE)*
 6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(DONE)*
-7. 10:15-10:25 HTTP Go server (brief) - Brian
-8. 10:25-10:45 Build a REST server in Go using 100% stdlib - Error handling Testing .... - Brian
+7. 10:15-10:25 HTTP Go server (brief) - Brian *(DONE)*
+8. 10:25-10:45 Build a REST server in Go using 100% stdlib - Error handling Testing .... - Brian *(DONE)*
 
 9. 10:45-11:00 **BREAK**
 
