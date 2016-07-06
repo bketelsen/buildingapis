@@ -23,11 +23,16 @@ var ErrBadPath = errors.New("Bad Request Path")
 
 // Validation Errors
 var (
-	ErrCourseNameRequired      = errors.New("Course Name Required")
+	// ErrCourseNameRequired is returned when there is no course name in the post
+	ErrCourseNameRequired = errors.New("Course Name Required")
+	// ErrCourseStartTimeRequired is returned when there is no start time in the post
 	ErrCourseStartTimeRequired = errors.New("Course Start Time Required")
-	ErrCourseEndTimeRequired   = errors.New("Course End Time Required")
-	ErrCourseLocationRequired  = errors.New("Course Location Required")
-	ErrCourseNameLength        = errors.New("Course Name Too Short")
+	// ErrCourseEndTimeRequired is returned when there is no end time in the post
+	ErrCourseEndTimeRequired = errors.New("Course End Time Required")
+	// ErrCourseLocationRequired is returned when there is no location in the post
+	ErrCourseLocationRequired = errors.New("Course Location Required")
+	// ErrcourseNameLength is returned when the course name is less than 3 characters long
+	ErrCourseNameLength = errors.New("Course Name Too Short")
 )
 
 // Address is a street address
