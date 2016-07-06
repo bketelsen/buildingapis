@@ -1,4 +1,4 @@
-API Styles
+Alternative Muxes
 Building APIs in Go
 10 Jul 2016
 
@@ -10,3 +10,120 @@ raphael@goa.design
 
 * Alternative Muxes 
 
+If there is one weakness in Go's http package, it's the inflexibility of the http.ServeMux.
+
+- Can't register capture variables in the path 
+	/api/users/{userid}
+- Can't call different functions based on request's HTTP verb
+	GET /api/users -> getUsers()
+	POST /api/users -> newUser()a
+- Can't differentiate based on request host or scheme
+	www.me.com -> serveMe()
+	https -> serveSecure()
+
+* Alternative Muxes
+If your app isn't too big, this limitation may not bother you.  Even if your app is big, http.ServeMux still works, but requires conditional branching in the handler functions.
+
+	switch r.Method {
+		case "GET" ...
+	}
+
+In the "Just Use Standard Library" camp, most people are willing to concede that the http.ServeMux is just downright inflexible.
+
+* Alternatives
+
+If you're not allergic to taking on a dependency, there are several great options for alternative muxes.  We'll explore a few, and give a full example of our previous app with Gorilla Mux.
+
+- gorilla Mux
+- httprouter
+- pat
+- xmux (adds net/context support)
+
+Let's explore a few!
+
+* Gorilla Mux
+
+The gorilla web toolkit is considered by many to be essential to web development.  The mux is probably the most commonly used http multiplexer in Go applications.  
+
+- Requests can be matched based on URL host, path, path prefix, schemes, header and query values, HTTP methods or using custom matchers.
+- URL hosts and paths can have variables with an optional regular expression.
+- Registered URLs can be built, or "reversed", which helps maintaining references to resources.
+- Routes can be used as subrouters: nested routes are only tested if the parent route matches. This is useful to define groups of routes that share common conditions like a host, a path prefix or other repeated attributes. As a bonus, this optimizes request matching.
+- It implements the http.Handler interface so it is compatible with the standard http.ServeMux. 
+
+* Gorilla Mux Example
+
+- Capture variables in the route path
+	r := mux.NewRouter()
+	r.HandleFunc("/products/{key}", ProductHandler)
+	r.HandleFunc("/articles/{category}/", ArticlesCategoryHandler)
+	r.HandleFunc("/articles/{category}/{id:[0-9]+}", ArticleHandler)
+
+- Then use them in your code
+	vars := mux.Vars(request)
+	category := vars["category"]
+
+- Use multiple matchers at the same time
+	// GET requests to http://www.example.com/products
+	r.HandleFunc("/products", ProductsHandler).Host("www.example.com").Methods("GET").Schemes("http")
+	
+* Gorilla Mux Example Application
+
+/exercises/11-alternative-mux/gorilla
+
+* Gorilla Takeaways
+
+- Much cleaner functions without all the branching
+- Deleted several helper functions too!
+- Didn't show several features:
+	SubRouters - routes that contain common features (host, scheme, etc.)
+- Use router.StrictSlash(true) to redirect /path/ to /path and save yourself pain
+
+
+* httprouter
+
+github.com/julienschmidt/httprouter
+
+- Only explicit matches (this can be a pain, too) get routed
+- Trailing slashes auto-redirect
+- Path autocorrection (extra slashes, ALLCAPS)
+- Path parameters /api/courses/:courseid
+- Generates no garbage
+- Set a Panic Handler to prevent crashes
+
+* httprouter Simple Example
+
+.code samples/11-httprouter.go
+
+* httprouter Takeaways
+
+- Built for speed
+- Designed specifically for APIs, with many API friendly features
+- Even more flexibility and power than gorilla
+- Base router for many Go web frameworks
+- Compatible with std lib's http.Handler & middleware (using wrapper func)
+
+
+* pat
+
+github.com/bmizerany/pat
+Sinatra style pattern matching for Go
+
+	m := pat.New()
+    	m.Get("/hello/:name", http.HandlerFunc(HelloServer))
+    	http.Handle("/", m)
+
+- Really light, barely more than http.Serve mux, but adds patterns
+
+* xmux
+
+Fork of httprouter, but adds net/context support.
+
+That's a *good*thing*, we'll talk about net/context later.
+
+* Recommendations
+
+- Use the smallest thing you can get away with
+- OFTEN that's http.ServeMux
+- httprouter is awesome, well tested, widely used
+- xmux is even better if you use net/context
