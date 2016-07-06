@@ -92,7 +92,6 @@ func main() {
 	cs := &CourseServer{
 		DB: db,
 	}
-
 	http.Handle(courseBase, cs)
 	http.HandleFunc(registrationBase, registrations)
 	log.Fatal(http.ListenAndServe(":8081", nil))

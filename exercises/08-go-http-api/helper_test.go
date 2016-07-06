@@ -5,55 +5,30 @@ import (
 	"time"
 )
 
-func TestIDOrListWithID(t *testing.T) {
-	const expect = "1"
-	id, e := idOrList(courseBase, "/api/courses/1")
-	if e != nil {
-		t.Error(e)
+func TestIDOrList(t *testing.T) {
+	// table driven tests are awesome
+	// use them every chance you get
+	// to save typing!
+	tests := []struct {
+		expect string
+		path   string
+		valid  bool
+	}{
+		{"1", "/api/courses/1", true},
+		{"1", "/api/courses/1/", true},
+		{"", "/api/courses", true},
+		{"", "/api/courses/", true},
+		{"", "/api/courses/1/blue/red", false},
 	}
-	if id != expect {
-		t.Errorf("Expected %s, got %s", expect, id)
-	}
-}
 
-func TestIDOrListWithIDAndTrailingSlash(t *testing.T) {
-	const expect = "1"
-	id, e := idOrList(courseBase, "/api/courses/1/")
-	if e != nil {
-		t.Error(e)
-	}
-	if id != expect {
-		t.Errorf("Expected %s, got %s", expect, id)
-	}
-}
-
-func TestIDOrListWithNoIDAndTrailingSlash(t *testing.T) {
-	id, e := idOrList(courseBase, "/api/courses/")
-	if e != nil {
-		t.Error(e)
-	}
-	if id != "" {
-		t.Errorf("Expected empty string  got %s", id)
-	}
-}
-
-func TestIDOrListWithNoIDNoTrailingSlash(t *testing.T) {
-	id, e := idOrList(courseBase, "/api/courses")
-	if e != nil {
-		t.Error(e)
-	}
-	if id != "" {
-		t.Errorf("Expected empty string  got %s", id)
-	}
-}
-
-func TestIDOrListWithExtras(t *testing.T) {
-	id, e := idOrList(courseBase, "/api/courses/1/blue/red")
-	if e == nil {
-		t.Error("Expected error with garbage path")
-	}
-	if id != "" {
-		t.Errorf("Expected no id got %s", id)
+	for _, test := range tests {
+		id, e := idOrList(courseBase, test.path)
+		if test.valid && e != nil {
+			t.Error(e)
+		}
+		if id != test.expect {
+			t.Errorf("expected %s, got %s", test.expect, id)
+		}
 	}
 }
 
