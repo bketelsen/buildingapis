@@ -4,7 +4,7 @@
  
 1. 9:05-9:15 HTTP Basics (+https, standard headers) - Brian
 2. 9:15-9:20 HTTP2 - Raphael *(DONE)*
-3. 9:20-9:35 Different API styles -> REST - Brian *(Mostly Done)* needs examples
+3. 9:20-9:35 Different API styles -> REST - Brian *(DONE)* needs examples
 4. 9:35-9:50 REST Design consideration - Raphael *(DONE)*
 5. 9:50-10:00 Tools for designing APIs, Swagger, RAML, JSONSchema, etc. - Raphael *(DONE)*
 6. 10:00-10:15 Design API that we will build later using Swagger editor - Raphael/Together *(DONE)*
