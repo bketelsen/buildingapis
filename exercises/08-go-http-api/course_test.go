@@ -1,21 +1,23 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/bketelsen/buildingapis/exercises/library"
 )
 
-func init() {
-	db = library.NewDB()
-}
-
 func TestGetOneCourse(t *testing.T) {
+	db := library.NewDB()
+	cs := &CourseServer{
+		DB: db,
+	}
 	// register the handler function with the httptest Server
-	ts := httptest.NewServer(http.HandlerFunc(courses))
+	ts := httptest.NewServer(http.Handler(cs))
 	defer ts.Close()
 
 	// make a request
@@ -51,8 +53,12 @@ func TestGetOneCourse(t *testing.T) {
 }
 
 func TestGetOneCourseNotFound(t *testing.T) {
+	db := library.NewDB()
+	cs := &CourseServer{
+		DB: db,
+	}
 	// register the handler function with the httptest Server
-	ts := httptest.NewServer(http.HandlerFunc(courses))
+	ts := httptest.NewServer(http.Handler(cs))
 	defer ts.Close()
 
 	// make a request
@@ -80,8 +86,12 @@ func TestGetOneCourseNotFound(t *testing.T) {
 
 }
 func TestGetCourses(t *testing.T) {
+	db := library.NewDB()
+	cs := &CourseServer{
+		DB: db,
+	}
 	// register the handler function with the httptest Server
-	ts := httptest.NewServer(http.HandlerFunc(courses))
+	ts := httptest.NewServer(http.Handler(cs))
 	defer ts.Close()
 
 	// make a request
@@ -93,7 +103,6 @@ func TestGetCourses(t *testing.T) {
 		t.Fatalf("Received non-200 response: %d\n", resp.StatusCode)
 	}
 	defer resp.Body.Close()
-	// this is the hard way
 	var got []Course
 	if err = json.NewDecoder(resp.Body).Decode(&got); err != nil {
 		t.Error(err.Error())
@@ -106,5 +115,106 @@ func TestGetCourses(t *testing.T) {
 
 	if len(got) != len(want) {
 		t.Errorf("Expected %d records, got %d.", len(want), len(got))
+	}
+}
+
+func TestPostCourseGood(t *testing.T) {
+	db := library.NewEmptyDB()
+	cs := &CourseServer{
+		DB: db,
+	}
+	// register the handler function with the httptest Server
+	ts := httptest.NewServer(http.Handler(cs))
+	defer ts.Close()
+
+	var desc string
+	desc = "Course Description"
+	course := Course{
+		ID:          1,
+		Name:        "Best Course Ever",
+		Location:    "Denver",
+		Description: &desc,
+		StartTime:   time.Now(),
+		EndTime:     time.Now().Add(10 * time.Minute),
+	}
+	b, err := json.Marshal(course)
+	if err != nil {
+		t.Error(err)
+	}
+	req, err := http.NewRequest("POST", ts.URL+"/api/courses/", bytes.NewBuffer(b))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 201 {
+		t.Fatalf("Received non-201 response: %d\n", resp.StatusCode)
+	}
+	defer resp.Body.Close()
+	c, err := cs.DB.Get("courses", "id", "1")
+	if err != nil {
+		t.Errorf("Expected course, got error: %v", err)
+	}
+	rc, ok := c.(*library.CourseModel)
+	if !ok {
+		t.Errorf("invalid response object")
+	}
+	if rc.Location != course.Location {
+		t.Errorf("Expected %s, got %s", course.Location, rc.Location)
+	}
+	// Test more or all of these fields if you wish to be complete
+}
+
+func TestPostCourseBad(t *testing.T) {
+	db := library.NewEmptyDB()
+	cs := &CourseServer{
+		DB: db,
+	}
+	// register the handler function with the httptest Server
+	ts := httptest.NewServer(http.Handler(cs))
+	defer ts.Close()
+
+	var desc string
+	desc = "Course Description"
+	course := Course{
+		ID:          1,
+		Name:        "1",
+		Location:    "Denver",
+		Description: &desc,
+		StartTime:   time.Now(),
+		EndTime:     time.Now().Add(10 * time.Minute),
+	}
+	b, err := json.Marshal(course)
+	if err != nil {
+		t.Error(err)
+	}
+	req, err := http.NewRequest("POST", ts.URL+"/api/courses/", bytes.NewBuffer(b))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 400 {
+		t.Fatalf("Unexpected response wanted %d, got %d\n", http.StatusBadRequest, resp.StatusCode)
+	}
+	defer resp.Body.Close()
+
+	var got map[string]interface{}
+	if err = json.NewDecoder(resp.Body).Decode(&got); err != nil {
+		t.Error(err.Error())
+	}
+	var msg interface{}
+	var ok bool
+	if msg, ok = got["Message"]; !ok {
+		t.Error("expected a message key in response json")
+	}
+	if msg.(string) != "Course Name Too Short" {
+		t.Error("Expected validation error")
 	}
 }

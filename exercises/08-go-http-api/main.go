@@ -12,9 +12,6 @@ import (
 	"github.com/bketelsen/buildingapis/exercises/library"
 )
 
-// in memory datastore
-var db *library.MemDB
-
 const (
 	courseBase       = "/api/courses/"
 	registrationBase = "/api/registrations/"
@@ -77,16 +74,26 @@ type Registration struct {
 	LastName *string `json:"last_name,omitempty" xml:"last_name,omitempty" form:"last_name,omitempty"`
 }
 
+// CourseServer services requests for Courses.
+// It is a struct so we can do dependency injection
+// in tests and use a different database
+type CourseServer struct {
+	DB *library.MemDB
+}
+
 func main() {
 
-	db = library.NewDB()
+	db := library.NewDB()
+	cs := &CourseServer{
+		DB: db,
+	}
 
-	http.HandleFunc(courseBase, courses)
+	http.Handle(courseBase, cs)
 	http.HandleFunc(registrationBase, registrations)
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
 
-func courses(w http.ResponseWriter, r *http.Request) {
+func (cs *CourseServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Allow", "OPTIONS,GET,POST")
 	if r.Method == "OPTIONS" {
 		return
@@ -100,7 +107,7 @@ func courses(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if id == "" {
-			cc, err := db.List("courses", "id", nil)
+			cc, err := cs.DB.List("courses", "id", nil)
 			if err != nil {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
@@ -116,7 +123,7 @@ func courses(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		} else {
-			c, err := db.Get("courses", "id", id)
+			c, err := cs.DB.Get("courses", "id", id)
 			if err != nil {
 				if err == library.ErrNotFound {
 					jsonError(w, "Not Found", http.StatusNotFound)
@@ -143,14 +150,17 @@ func courses(w http.ResponseWriter, r *http.Request) {
 		err := validateCourse(&course)
 		if err != nil {
 			jsonError(w, err.Error(), 400)
+			return
 		}
+		// convert it
+		lc := convertCourse(course)
 		// save it
-		//c := saveAndGetCourse()
-		var c Course
-		err = json.NewEncoder(w).Encode(c)
+		err = cs.DB.Insert("courses", lc)
 		if err != nil {
-			log.Println("serveEndpoint: POST: Encode:", err)
+			jsonError(w, err.Error(), 400)
 		}
+		w.WriteHeader(http.StatusCreated)
+		return
 	default:
 		w.Header().Set("Allow", "GET,POST")
 		jsonError(w, "Method Not Allowed", 405)
@@ -162,6 +172,18 @@ func registrations(w http.ResponseWriter, r *http.Request) {
 	jsonError(w, "Not Implemented", http.StatusNotImplemented)
 }
 
+func convertCourse(c Course) *library.CourseModel {
+	id := strconv.Itoa(c.ID)
+	lc := &library.CourseModel{
+		ID:          id,
+		Name:        c.Name,
+		Location:    c.Location,
+		Description: *c.Description,
+		StartTime:   c.StartTime,
+		EndTime:     c.EndTime,
+	}
+	return lc
+}
 func jsonError(w http.ResponseWriter, msg string, code int) {
 	w.WriteHeader(code)
 	err := json.NewEncoder(w).Encode(struct {
