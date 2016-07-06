@@ -15,7 +15,7 @@
 
 10. 11:00-11:15 Middleware as a concept - Brian *(DONE)*
 11. 11:15-11:25 Alternative Muxers - Brian *(DONE)*
-12. 11:25-11:35 Middleware packages (Alice) - Brian
+12. 11:25-11:35 Middleware packages (Alice) - Brian *(DONE)*
 13. 11:35-11:45 Authorization - Raphael *(DONE)*
 14. 11:45-11:50 Security - Raphael *(DONE)*
 

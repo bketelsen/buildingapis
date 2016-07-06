@@ -1,4 +1,4 @@
-API Styles
+Middleware Packages
 Building APIs in Go
 10 Jul 2016
 
@@ -10,3 +10,38 @@ raphael@goa.design
 
 * Middleware Packages/Frameworks
 
+Using middleware function chaining is very powerful, and chances are good it's all you will need when building your API.
+
+Popular packages:
+
+- alice github.com/justinas/alice
+	Chain any middleware together cleanly
+
+- negroni github.com/urfave/negroni (formerly codegangsta/negroni)
+	Pre-built middlewares
+	Defines middleware interface that you can use for your own
+
+- gorilla/handlers github.com/gorilla/handlers
+	Pre-built middlewares	
+	*wow* that's a lot of middleware
+
+* Alice example
+
+.code samples/12-alice.go /START OMIT/,/END OMIT/
+
+
+* Negroni example
+
+.code samples/12-negroni.go /START OMIT/,/END OMIT/
+
+
+* Gorilla example
+
+.code samples/12-gorilla.go /START OMIT/,/END OMIT/
+
+
+* Middleware Takeaways
+
+- Packages are nice, but not necessary
+- If you end up with a framework, it probably has its own middleware implementation
+- alice is the most popular, don't forget with the right wrapping you can use almost any middleware with almost any router -- and even nest them.  *don't*do*that*
