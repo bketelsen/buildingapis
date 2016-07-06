@@ -1,4 +1,4 @@
-API Styles
+Middleware in Pure Go
 Building APIs in Go
 10 Jul 2016
 
@@ -10,3 +10,50 @@ raphael@goa.design
 
 * Middleware
 
+	Middleware is an overloaded term.  Very, very overloaded.
+
+In the context of web development, `middleware` is code that runs before or after your business functionality.   Common examples of web middleware:
+
+- Log every request
+- Enforce AAA rules (Authorization, Authentication, Access Control)
+- Inject headers into a request or response
+- Capture metrics about each request
+
+
+* Middleware in Go
+
+Writing middleware in Go is *really* easy.
+
+Use closures to wrap up a chain of function calls that will serve as your middleware:
+
+.code samples/10-middleware.go /START OMIT/,/END OMIT/
+
+This middleware executes *before* the `next` middleware is called.
+
+* What's Happening Here?
+
+We've created a function that accepts an http.Handler as a parameter.  This handler will be wrapped with the contents of our function, and called either before or after the passed-in handler.  
+
+Different example of the same concept:
+.code samples/10-middleware1.go /START OMIT/,/END OMIT/
+
+This middleware has logic both before and after the `next` middleware is called.
+
+* Putting it Together
+
+To inject middleware into your routes, you wrap your handler with the middleware function call:
+
+	myMiddleware(myBusinessLogic)
+
+You can wrap an arbitrary number of middlewares together.  They'll be called in the order of their function stack:
+
+	firstMiddleware(secondMiddleware(thirdMiddleware(myBusinessLogic)))
+
+In the above call, `firstMiddleware` would be called first, followed by `secondMiddleware`, followed by `thirdMiddleware`. Finally the `myBusinessLogic` handler would be called.
+
+
+* Terminating the chain
+
+Since you have access to the http.Response writer you can write a status code or error message to the response and exit the middleware chain at any time.
+
+.code samples/10-middleware3.go /START OMIT/,/END OMIT/
