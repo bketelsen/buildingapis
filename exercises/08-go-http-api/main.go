@@ -24,6 +24,15 @@ const (
 // path isn't valid.
 var ErrBadPath = errors.New("Bad Request Path")
 
+// Validation Errors
+var (
+	ErrCourseNameRequired      = errors.New("Course Name Required")
+	ErrCourseStartTimeRequired = errors.New("Course Start Time Required")
+	ErrCourseEndTimeRequired   = errors.New("Course End Time Required")
+	ErrCourseLocationRequired  = errors.New("Course Location Required")
+	ErrCourseNameLength        = errors.New("Course Name Too Short")
+)
+
 // Address is a street address
 type Address struct {
 	// City
@@ -130,12 +139,15 @@ func courses(w http.ResponseWriter, r *http.Request) {
 			jsonError(w, "Invalid JSON", 400)
 			return
 		}
-
+		// validate it
+		err := validateCourse(&course)
+		if err != nil {
+			jsonError(w, err.Error(), 400)
+		}
 		// save it
 		//c := saveAndGetCourse()
 		var c Course
-
-		err := json.NewEncoder(w).Encode(c)
+		err = json.NewEncoder(w).Encode(c)
 		if err != nil {
 			log.Println("serveEndpoint: POST: Encode:", err)
 		}
@@ -146,72 +158,8 @@ func courses(w http.ResponseWriter, r *http.Request) {
 }
 
 func registrations(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Add("Allow", "OPTIONS,GET,POST")
-	if r.Method == "OPTIONS" {
-		return
-	}
-	switch r.Method {
-	case "GET":
-		//	get registration or registrations
-		id, err := idOrList(registrationBase, r.URL.Path)
-		if err != nil {
-			jsonError(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-		if id == "" {
-			cc, err := db.List("registrations", "id", nil)
-			if err != nil {
-				if err == library.ErrNotFound {
-					jsonError(w, "Not Found", http.StatusNotFound)
-					return
-				}
-				jsonError(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			reglist := reglistToRegistrationSlice(cc)
-			w.Header().Set("Content-Type", "application/json")
-			if err := json.NewEncoder(w).Encode(reglist); err != nil {
-				log.Println("Encode:", err)
-				return
-			}
-		} else {
-			c, err := db.Get("registrations", "id", id)
-			if err != nil {
-				if err == library.ErrNotFound {
-					jsonError(w, "Not Found", http.StatusNotFound)
-					return
-				}
-				jsonError(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			reg := regToRegistration(c)
-			w.Header().Set("Content-Type", "application/json")
-			if err := json.NewEncoder(w).Encode(reg); err != nil {
-				log.Println("Encode:", err)
-				return
-			}
-		}
-
-	case "POST":
-		var course Course
-		if err := json.NewDecoder(r.Body).Decode(&course); err != nil {
-			jsonError(w, "Invalid JSON", 400)
-			return
-		}
-
-		// save it
-		//c := saveAndGetCourse()
-		var c Course
-
-		err := json.NewEncoder(w).Encode(c)
-		if err != nil {
-			log.Println("serveEndpoint: POST: Encode:", err)
-		}
-	default:
-		w.Header().Set("Allow", "GET,POST")
-		jsonError(w, "Method Not Allowed", 405)
-	}
+	w.Header().Set("Allow", "GET,POST")
+	jsonError(w, "Not Implemented", http.StatusNotImplemented)
 }
 
 func jsonError(w http.ResponseWriter, msg string, code int) {
@@ -274,32 +222,6 @@ func courseToCourse(i interface{}) *Course {
 	return mt
 }
 
-func regToRegistration(i interface{}) *Registration {
-	m := i.(*library.RegistrationModel)
-	id, err := strconv.Atoi(m.ID)
-	if err != nil {
-		panic("invalid Registration ID - must be an int") // bug
-	}
-	courseID, err := strconv.Atoi(m.CourseID)
-	if err != nil {
-		panic("invalid Course ID - must be an int") // bug
-	}
-	mt := &Registration{
-		ID:        id,
-		FirstName: &m.FirstName,
-		LastName:  &m.LastName,
-		CourseID:  courseID,
-		Address: &Address{
-			Number: m.Address.Number,
-			Street: m.Address.Street,
-			City:   m.Address.City,
-			State:  m.Address.State,
-			Zip:    m.Address.Zip,
-		},
-	}
-	return mt
-}
-
 func courselistToCourseSlice(i []interface{}) []*Course {
 	cc := make([]*Course, len(i))
 	for x, course := range i {
@@ -308,11 +230,30 @@ func courselistToCourseSlice(i []interface{}) []*Course {
 	}
 	return cc
 }
-func reglistToRegistrationSlice(i []interface{}) []*Registration {
-	cc := make([]*Registration, len(i))
-	for x, reg := range i {
-		mt := regToRegistration(reg)
-		cc[x] = mt
+
+func validateCourse(c *Course) error {
+	// Required:
+	// name, start_time, end_time, location
+	if c.Name == "" {
+		return ErrCourseNameRequired
 	}
-	return cc
+	// compare start and end time to a nil time
+	// to see if they're set
+	var t time.Time
+	if c.StartTime == t {
+		return ErrCourseStartTimeRequired
+	}
+	if c.EndTime == t {
+		return ErrCourseEndTimeRequired
+	}
+	if c.Location == "" {
+		return ErrCourseLocationRequired
+	}
+	// Minimum Length
+	// name: 3
+
+	if len(c.Name) < 3 {
+		return ErrCourseNameLength
+	}
+	return nil
 }
