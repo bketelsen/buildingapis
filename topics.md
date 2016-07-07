@@ -26,7 +26,7 @@
 18. 13:25-13:35 Codegen - why? - Brian *(DONE)*
 19. 13:35-13:45 DIY codegen, goa, go-swagger - Brian *(DONE)*
 20. 13:45-14:10 (re)build app using goa - Raphael/Together *(DONE)*
-21. 14:10-14:25 Running APIs in production - Brian
+21. 14:10-14:25 Running APIs in production - Brian *(DONE)*
 22. 14:25-14:40 Add logging/metric data to API built with goa - Brian/Together *(DONE)*
 
 23. 14:40-15:00 **BREAK**
