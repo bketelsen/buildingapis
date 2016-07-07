@@ -35,3 +35,16 @@ above. See
 [https://github.com/goadesign/goa/blob/master/metrics.go](https://github.com/goadesign/goa/blob/master/metrics.go).
 
 goa sends metrics for each error and response by default.
+
+## Generating Data
+
+The `solution` directory contains a client tool that sends continuous traffic to the service.
+
+Compile and run it with:
+
+```
+cd solution/tool/goworkshop-cli
+go build
+./goworkshop-cli siege
+```
+
