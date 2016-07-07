@@ -22,7 +22,7 @@
 15. 12:00-13:00 **LUNCH**
 
 16. 13:00-13:05 Frameworks - Raphael *(DONE)*
-17. 13:05-13:25 Replicate API built in step 6 in any of the above framework - ?/Together
+17. 13:05-13:25 Replicate API built in step 6 in any of the above framework - ?/Together *(DONE)*
 18. 13:25-13:35 Codegen - why? - Brian
 19. 13:35-13:45 DIY codegen, goa, go-swagger - Brian
 20. 13:45-14:10 (re)build app using goa - Raphael/Together *(DONE)*
