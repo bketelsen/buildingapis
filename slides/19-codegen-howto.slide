@@ -36,3 +36,49 @@ This depends entirely on what you're building.
 	DSL
 	YAML/JSON
 
+* Example Generator : GenKit
+
+I built this last year to generate GoKit services from structs that were already written.  
+
+The data source in this example is a Go struct, and it uses `go/ast` to read information about the struct in order to generate the API.
+
+* Go Generate
+
+GenKit uses `go generate`, because it's easy.  Add a comment to the top of your source file:
+	
+	//go:generate genkit $GOFILE
+
+This tells the go generate command to use external generator `genkit` and pass in the current file as input.
+
+`go generate` bundles them and sends them all as a list of files to the generator.
+
+.code samples/genkit/genkit.go /START OMIT/,/END OMIT/
+
+* Process Each Source File
+
+.code samples/genkit/genkit.go /START PF/,/END PF/
+
+* go/ast
+
+The code then uses go/ast to read important metadata about the file it was presented.
+
+- package name
+- types in the package
+
+Then the generator looks for types that are decorated with the annotation `@service`
+.code samples/genkit/identify.go /START DECORATOR/,/END DECORATOR/
+
+* go/ast
+
+After identifying types that are candidates for code generation, the render() function applies the templates using the metadata. 
+
+* Conclusion
+
+Code generation isn't hard. 
+
+- Find a pattern you're tired of repeating
+- Make a template for that pattern
+- Get metadata from somewhere
+- Apply the metadata to the template
+- Sleep at your desk while everyone else is cutting/pasting/modifying functions
+
