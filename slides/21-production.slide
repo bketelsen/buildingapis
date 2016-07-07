@@ -1,0 +1,202 @@
+Running an API in Production
+Building APIs in Go
+10 Jul 2016
+
+Brian Ketelsen, Raphael Simon
+bketelsen@goa.design
+@bketelsen
+raphael@goa.design
+@rgsimon
+
+* Production Considerations
+
+- Deployment
+- Load Balancing
+- Availability Monitoring
+- Metrics
+- Error Detection
+- Logs 
+
+* Deployment
+
+What's the simplest thing you can do to deploy your API?
+
+Many IT shops have deployment already solved, and you may not have much choice here.  If you *DO* have a choice, keep these things in mind:
+
+- Build your deployment pipeline the moment you have compiled code
+	Deploy to a production-like environment EARLY in your dev cycle to prevent pain during crunch-time
+
+- Every layer you add on top of your base Operating System *adds*a*layer*of*complexity*
+	Docker, Kubernetes, Mesos, Amazon ECS - great if you're already using them.
+	Plan for debugging and troubleshooting in your development cycle if you're learning them 
+	at the same time you're building your application.  
+	There is a learning curve and time cost to using these powerful tools.
+
+* Deployment
+
+- Repeatable deployments from an automated CI/CD enviroment mean you get to sleep at night
+
+Don't do manual deployments.  Just don't.
+
+Use any CI environment you like and automate your deployments with the right amount of process for your company.
+
+Deployments are like muscles.  They start to fail if they're not used frequently.
+
+	"Oh we haven't deployed that app in months... I'm afraid to touch it."
+
+* Deployment  - 12 Factor Apps
+
+http://12factor.net/
+
+	Read this.  Use this.  Follow this.
+
+Why?  Because you may realize half way through your development cycle that Docker isn't going to work for your app.  Or the network model of Kubernetes is slowing down your intra-service traffic.  Or your operations team isn't ready to jump on the container bandwagon yet. Or... or...
+
+Circumstances can change rapidly as you're building your application.  If you follow the 12 factor guidelines you can deploy your application almost anywhere with very minimal reconfiguration, and no code changes.
+
+
+* Load Balancing
+
+Load balancing is one of the harder problems in operations.  Keep it as simple as you can to make your operations people happy (or you, if you're #devops)
+
+- Kubernetes does load balancing.  If you can, use k8s and let it worry about LB's for you.
+
+If you have a very dynamic deployment environment you're going to need more complex load balancing tools.
+
+- nginx + confd
+- Amazon ELB + some scripting
+- traefik
+- API Gateway - tyk.io  Kong
+
+Some tools like Tyk and Kong also provide other services like Auth.  Plan your load balancing early if you want to take advantage of these in your development cycle.
+
+
+* Availability Monitoring
+
+All APIs should have a health endpoint.
+
+	/healthz is a growing standard
+
+Your health endpoint should answer the following questions:
+
+- Is the port listening?
+- Are the underlying dependencies (databases, etc) reachable?
+- Is the application in a healthy state?
+
+* Availability Monitoring
+
+The health endpoint is not for metrics.  It needs to be as light weight and system resource friendly as possible because you're going to call it a LOT.
+
+- Don't create a lot of garbage in your health endpoints.  
+- Do make a test query to your database and other external services.  Simple query like `show databases;` 
+- Don't leak resources in your health checks or you will DDOS yourself.
+- Do use http status codes as indicators of health. 200 = OK; anything else is unhealthy
+- Do make checks from multiple locations or availability zones.
+- Do not rely on your hosting provider's health checking alone.  Use two.
+
+* Availability Monitoring
+
+Your /healthz endpoint will serve two purposes:
+
+- Serve health checks to your external monitoring tools
+- Serve liveness status to your load balancer
+
+If you're doing expensive initialization work, consider this in your /healthz endpoint and don't report 200/OK until the server is actually ready to serve traffic.
+	
+* Metrics
+
+Measure and count all the things.  
+
+- Counts of requests
+- Counts of response status codes
+	These will get you rates for both too.
+	Use a middleware for this that captures timing, response codes and reports them async
+	after the requests processes
+
+- Timings for all requests
+- Timings for some functions
+	Capture and report timing on all external calls (DB, Cache server, etc)
+
+
+* Metrics - Libraries
+
+github.com/armon/go-metrics is a good general purpose metrics library for your code. It's particularly useful because it can report to many collectors:
+
+- StatsiteSink : Sinks to a statsite instance (TCP)
+- StatsdSink: Sinks to a StatsD / statsite instance (UDP)
+- PrometheusSink: Sinks to a Prometheus metrics endpoint (exposed via HTTP for scrapes)
+- InmemSink : Provides in-memory aggregation, can be used to export stats
+- FanoutSink : Sinks to multiple sinks. Enables writing to multiple statsite instances for example.
+
+This fits well with the 12-factor concept.  Just because you're changing your metrics collection & reporting tools doesn't mean you should have to change your application (much).
+
+
+* Metrics - Collection
+
+- Prometheus
+- StatsD + Graphite
+- Datadog
+
+If you want to manage your own metrics collection & reporting, use Prometheus or StatsD + Graphite.
+If you want someone else to manage those servers, use Datadog.
+
+* Error Detection
+
+This is where all of the above topics converge.  Error detection is hard.  How can you tell the difference between a one-of error because a customer sent a bad request and a production outage that's starting - or about to start?
+
+TOP TIP:
+
+Use named custom errors in your Go code.  `ErrDatabaseNotAvailable`
+Create a helper function for logging errors that also reports them to your metrics service.
+
+* Error Detection
+.code samples/21-production.go
+
+* Error Detection - Wrapup
+
+Many tools let you set alerts based on thresholds.  If the error metrics are spiking, send an alert to pagerduty.
+If your tooling doesn't allow for this, write a bash script or Go app to do it for you.  Metrics are useless unless they are actionable.  
+
+- It's great to measure things, but dashboards are for managers
+- Monitor your metrics programmatically and initiate actionable alerts
+
+* Logs
+
+You will have very little insight into your running application without metrics and logs.
+
+- Use structured logging, logs should be processable by tools
+- Use a unique request ID for each inbound request.  Pass it all the way down the stack and log it.
+- Don't log garbage data.  Log the things that are important to the person or tool reading the log.
+
+Packages:
+
+- log15 - https://github.com/inconshreveable/log15
+- logrus - https://github.com/Sirupsen/logrus
+
+There are dozens. Pick one and standardize across your organization if possible. 
+
+* Logs - Shipping
+
+If you are running more than one instance of your application, you're going to need aggregated logs.  
+In house:
+	ELK stack
+
+Hosted Solutions:
+	Papertrail
+	Loggly
+	Logentries
+	...
+
+All of the hosted solutions will use rsyslog to ship your logs to a central service where you can view and query them in a web browser.
+
+A GOOD logging service will allow you to parse the information in your structured logs and make that searchable too.
+
+- In my experience loggly is the best at this
+
+* Conclusion
+
+Writing your API is only a small part of making it successful.  Your customers won't use a service that isn't dependable.  Use logs, metrics, health checks and good operational practices to ensure that your service is available.
+
+Be proactive and plan for these services when you start building your API.  It's much harder to shoe-horn them in later.
+
+
