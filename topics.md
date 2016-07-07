@@ -31,10 +31,6 @@
 
 23. 14:40-15:00 **BREAK**
 
-24. 15:05-15:15 Load Balancing w/ nginx, show nginx config for goworkshop - Brian
-25. 15:15-15:25 Backplane LBs - Brian
-26. 15:25-15:40 Running in containers -> Logging (docker logs, syslog), Monitoring (collectd) ... - Brian
-27. 15:40-16:05 "Dockerize" app built in previous steps with logging and nginx - Brian/Together
-28. 16:05-16:15 Microservices, What are they?  Why and why not? - Raphael *(DONE)*
-29. 16:15-16:30 Advanced topics: Vagrant flux - linkerd - Raphael
-30. 16:30-17:00 Open Q&A / Review of full workshop service - Together *(DONE)*
+24. 15:40-16:05 Containerizing the application
+25. 16:05-16:15 Microservices, What are they?  Why and why not? - Raphael *(DONE)*
+26. 16:30-17:00 Open Q&A / Review of full workshop service - Together *(DONE)*
