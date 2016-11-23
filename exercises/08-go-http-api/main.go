@@ -147,7 +147,7 @@ func (cs *CourseServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		var course Course
 		if err := json.NewDecoder(r.Body).Decode(&course); err != nil {
-			jsonError(w, "Invalid JSON", 400)
+			jsonError(w, "Invalid JSON", http.StatusBadRequest)
 			return
 		}
 		// validate it
@@ -162,6 +162,7 @@ func (cs *CourseServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		err = cs.DB.Insert("courses", lc)
 		if err != nil {
 			jsonError(w, err.Error(), 400)
+			return
 		}
 		w.WriteHeader(http.StatusCreated)
 		return

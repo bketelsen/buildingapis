@@ -10,6 +10,13 @@ raphael@goa.design
 
 * HTTP
 
+http://bit.ly/29wDpad
+Unzip to :
+$GOPATH/src/github.com/bketelsen/
+
+Present tool:
+go get golang.org/x/tools/cmd/present
+
 ** It all starts here
 
 https://tools.ietf.org/html/rfc2616

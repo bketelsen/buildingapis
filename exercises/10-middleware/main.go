@@ -93,6 +93,7 @@ func main() {
 	}
 	http.Handle(courseBase, logMiddleware(cs))
 	http.HandleFunc(registrationBase, registrations)
+	log.Println("Starting Server")
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
 

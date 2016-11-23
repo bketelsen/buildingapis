@@ -65,7 +65,7 @@ If you have a very dynamic deployment environment you're going to need more comp
 
 - nginx + confd
 - Amazon ELB + some scripting
-- traefik
+- traefik, backplane.io
 - API Gateway - tyk.io  Kong
 
 Some tools like Tyk and Kong also provide other services like Auth.  Plan your load balancing early if you want to take advantage of these in your development cycle.

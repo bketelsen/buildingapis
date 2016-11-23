@@ -8,6 +8,8 @@ Course material for GopherCon 2016 workshop
 * exercises/ contains the workshop exercises and solutions.
 * workshop/ contains a complete implementation of an service written in goa for reference.
 
+http://bit.ly/29wDpad
+
 ### Slides
 
 The slides are written in [present](https://godoc.org/golang.org/x/tools/present). The directory
